@@ -1,0 +1,441 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "IntervalTree.h"
+
+int max(int a, int b)
+{
+    return (a > b) ? a : b;
+}
+
+int height(Node *node)
+{
+    if (node == NULL)
+        return 0;
+    return node->height;
+}
+
+int get_max(Node *node)
+{
+    if (node == NULL)
+        return 0;
+    return node->max;
+}
+
+int get_balance(Node *node)
+{
+    if (node == NULL)
+        return 0;
+    return height(node->left) - height(node->right);
+}
+
+Node *new_node(Interval interval)
+{
+    Node *node = (Node *)malloc(sizeof(Node));
+    node->interval = interval;
+    node->max = interval.high;
+    node->left = NULL;
+    node->right = NULL;
+    node->height = 1;
+    return node;
+}
+
+Node *right_rotate(Node *y)
+{
+    Node *x = y->left;
+    Node *T2 = x->right;
+
+    x->right = y;
+    y->left = T2;
+
+    y->height = max(height(y->left), height(y->right)) + 1;
+    x->height = max(height(x->left), height(x->right)) + 1;
+
+    y->max = max(max(get_max(y->left), get_max(y->right)), y->interval.high);
+    x->max = max(max(get_max(x->left), get_max(x->right)), x->interval.high);
+
+    return x;
+}
+
+Node *left_rotate(Node *x)
+{
+    Node *y = x->right;
+    Node *T2 = y->left;
+
+    y->left = x;
+    x->right = T2;
+
+    x->height = max(height(x->left), height(x->right)) + 1;
+    y->height = max(height(y->left), height(y->right)) + 1;
+
+    x->max = max(max(get_max(x->left), get_max(x->right)), x->interval.high);
+    y->max = max(max(get_max(y->left), get_max(y->right)), y->interval.high);
+
+    return y;
+}
+
+Node *insert(Node *node, Interval interval)
+{
+    // printf("Insert called inserting [%d,%d]\n", interval.low, interval.high);
+    if (node == NULL)
+    {
+        // printf("IS NULL\n");
+        return new_node(interval);
+    }
+    if (interval.low <= node->interval.high && interval.high >= node->interval.low)
+    {
+        // printf("THEY OVERLAP\n [%d,%d] [%d,%d]\n",interval.low, interval.high, node->interval.low, node->interval.high);
+        if (interval.low < node->interval.low)
+        {
+            node->interval.low = interval.low;
+        }
+        if (interval.high > node->interval.high)
+        {
+            node->interval.high = interval.high;
+        }
+        // printf("COMBINED TO [%d,%d]\n",node->interval.low, node->interval.high);
+    }
+    else if (interval.low < node->interval.low)
+    {
+        // printf("If 1\n");
+        node->left = insert(node->left, interval);
+    }
+    else
+    {
+        // printf("Else 1");
+        node->right = insert(node->right, interval);
+    }
+
+    node->height = max(height(node->left), height(node->right)) + 1;
+
+    node->max = max(max(get_max(node->left), get_max(node->right)), node->interval.high);
+
+    int balance = get_balance(node);
+
+    if (balance > 1 && interval.low < node->left->interval.low)
+        return right_rotate(node);
+
+    if (balance < -1 && interval.low > node->right->interval.low)
+        return left_rotate(node);
+
+    if (balance > 1 && interval.low > node->left->interval.low)
+    {
+        node->left = left_rotate(node->left);
+        return right_rotate(node);
+    }
+
+    if (balance < -1 && interval.low < node->right->interval.low)
+    {
+        node->right = right_rotate(node->right);
+        return left_rotate(node);
+    }
+
+    return node;
+}
+
+Node *min_node(Node *node)
+{
+    Node *current = node;
+    while (current->left != NULL)
+        current = current->left;
+    return current;
+}
+
+Node *delete(Node *node, Interval interval)
+{
+    if (node == NULL)
+    {
+        return node;
+    }
+    if (interval.low < node->interval.low)
+        node->left = delete (node->left, interval);
+    else if (interval.low > node->interval.low)
+        node->right = delete (node->right, interval);
+    else
+    {
+        if (node->left == NULL || node->right == NULL)
+        {
+            Node *temp = node->left ? node->left : node->right;
+
+            if (temp == NULL)
+            {
+                temp = node;
+                node = NULL;
+            }
+            else
+            {
+                *node = *temp;
+            }
+            free(temp);
+        }
+        else
+        {
+            Node *temp = min_node(node->right);
+            node->interval = temp->interval;
+            node->right = delete (node->right, temp->interval);
+        }
+    }
+
+    if (node == NULL)
+        return node;
+
+    node->height = max(height(node->left), height(node->right)) + 1;
+
+    node->max = max(max(get_max(node->left), get_max(node->right)), node->interval.high);
+
+    int balance = get_balance(node);
+
+    if (balance > 1 && get_balance(node->left) >= 0)
+        return right_rotate(node);
+
+    if (balance > 1 && get_balance(node->left) < 0)
+    {
+        node->left = left_rotate(node->left);
+        return right_rotate(node);
+    }
+
+    if (balance < -1 && get_balance(node->right) <= 0)
+        return left_rotate(node);
+
+    if (balance < -1 && get_balance(node->right) > 0)
+    {
+        node->right = right_rotate(node->right);
+        return left_rotate(node);
+    }
+
+    return node;
+}
+
+Node *search(Node *node, Interval interval)
+{
+    // s1 e1 s2 e2
+    // printf("Checking overlap between [%d %d] and [%d %d]\n", node->interval.low, node->interval.high, interval.low, interval.high);
+    if (node == NULL || (node->interval.low < interval.high && interval.low < node->interval.high))
+        return node;
+    if (node->left != NULL && node->left->max >= interval.low)
+        return search(node->left, interval);
+    return search(node->right, interval);
+}
+void combineIntervals(Interval *Interval, int low, int high)
+{
+    Interval->low = Interval->low < low ? Interval->low : low;
+    Interval->high = Interval->high > high ? Interval->high : high;
+}
+
+Node *insertInterval(Node *root, Interval interval)
+{
+    Node *search_result = search(root, interval);
+    while (search_result != NULL)
+    {
+        // combine them
+        combineIntervals(&interval, search_result->interval.low, search_result->interval.high);
+        // delete the searched element
+        root = delete (root, search_result->interval);
+        // search again
+        search_result = search(root, interval);
+    }
+    // add new node in
+    root = insert(root, interval);
+    return root;
+}
+Node *chopTree(Node *root, Interval interval)
+{
+    Node *search_result = search(root, interval);
+    while (search_result != NULL)
+    {
+        int oldLow = search_result->interval.low;
+        int oldHigh = search_result->interval.high;
+        root = delete (root, search_result->interval);
+        // 4 cases
+        // s2 s1 e1 e2 full delete
+        if (interval.low <= oldLow && interval.high >= oldHigh)
+        {
+        }
+        // s2 s1 e2 e1 change start
+        else if (interval.low < oldLow && interval.high < oldHigh)
+        {
+            root = insert(root, (Interval){interval.high, oldHigh});
+        }
+        // s1 s2 e1 e2 change end
+        else if (oldLow < interval.low && oldHigh < interval.high)
+        {
+            root = insert(root, (Interval){oldLow, interval.low});
+        }
+        // s1 s2 e2 e1 split to 2
+        else
+        {
+            root = insert(root, (Interval){oldLow, interval.low});
+            root = insert(root, (Interval){interval.high, oldHigh});
+        }
+
+        search_result = search(root, interval);
+    }
+    return root;
+}
+
+void print_intervals(Node *node, FILE *stream)
+{
+    if (node == NULL)
+        return;
+    print_intervals(node->left, stream);
+    fprintf(stream, "[%d, %d]\n", node->interval.low, node->interval.high);
+
+    print_intervals(node->right, stream);
+}
+void addNode(int low, int high, NodeList **pHead)
+{
+    NodeList *pNewNode = malloc(sizeof(NodeList));
+    pNewNode->pInterval = malloc(sizeof(Interval));
+    pNewNode->pInterval->low = low;
+    pNewNode->pInterval->high = high;
+    if (*pHead == NULL)
+    {
+        *pHead = pNewNode;
+        pNewNode->pPrev = NULL;
+        pNewNode->pNext = NULL;
+    }
+    else
+    {
+        pNewNode->pNext = *pHead;
+        pNewNode->pPrev = NULL;
+        (*pHead)->pPrev = pNewNode;
+        *pHead = pNewNode;
+    }
+}
+
+Node *chopAndReturn(Node *root, Interval interval, NodeList **pPtr)
+{
+    Node *search_result = search(root, interval);
+    while (search_result != NULL)
+    {
+        int oldLow = search_result->interval.low;
+        int oldHigh = search_result->interval.high;
+        root = delete (root, search_result->interval);
+        // 4 cases
+        // s2 s1 e1 e2 full delete
+        if (interval.low <= oldLow && interval.high >= oldHigh)
+        {
+            // add s1 e1 to nodeList
+            addNode(oldLow, oldHigh, pPtr);
+        }
+        // s2 s1 e2 e1 change start
+        else if (interval.low < oldLow && interval.high < oldHigh)
+        {
+            root = insert(root, (Interval){interval.high, oldHigh});
+            // add s2 s1 to nodeList
+
+            addNode(oldLow, interval.high, pPtr);
+        }
+        // s1 s2 e1 e2 change end
+        else if (oldLow < interval.low && oldHigh < interval.high)
+        {
+            root = insert(root, (Interval){oldLow, interval.low});
+            // add s2 e1 to nodeList
+
+            addNode(interval.low, oldHigh, pPtr);
+        }
+        // s1 s2 e2 e1 split to 2
+        else
+        {
+            root = insert(root, (Interval){oldLow, interval.low});
+            root = insert(root, (Interval){interval.high, oldHigh});
+            // add s2 e2 to nodeList
+
+            addNode(interval.low, interval.high, pPtr);
+        }
+
+        search_result = search(root, interval);
+    }
+    return root;
+}
+
+NodeList *removeHead(NodeList *toRemove)
+{
+    if (toRemove == NULL)
+    {
+        return NULL;
+    }
+    NodeList *toRet;
+    if (toRemove->pNext != NULL)
+    {
+        toRet = toRemove->pNext;
+        toRemove->pNext->pPrev = NULL;
+        toRemove->pNext = NULL;
+        toRemove->pPrev = NULL;
+        return toRet;
+    }
+    return NULL;
+}
+
+void getIntersectionsAndChopInterval(Node *tree, Interval *pInterval, NodeList **pIntersection, NodeList **pLeftOver)
+{
+    if (search(tree, *pInterval) == NULL)
+    {
+        *pIntersection = NULL;
+        *pLeftOver = malloc(sizeof(NodeList));
+        (*pLeftOver)->pInterval = pInterval;
+        (*pLeftOver)->pNext = NULL;
+        (*pLeftOver)->pPrev = NULL;
+        return;
+    }
+
+    NodeList *toProcess = malloc(sizeof(NodeList));
+    toProcess->pNext = NULL;
+    toProcess->pPrev = NULL;
+    toProcess->pInterval = malloc(sizeof(Interval));
+    toProcess->pInterval->low = pInterval->low;
+    toProcess->pInterval->high = pInterval->high;
+
+    NodeList *pCur = toProcess;
+    toProcess = removeHead(toProcess);
+
+    Node *search_result = search(tree, *pCur->pInterval);
+
+    while (search_result != NULL)
+    {
+        int treeLow = search_result->interval.low;
+        int treeHigh = search_result->interval.high;
+        Interval *interval = pCur->pInterval;
+        // 4 cases
+        // s2 s1 e1 e2
+        if (interval->low <= treeLow && interval->high >= treeHigh)
+        {
+            addNode(treeLow, treeHigh, pIntersection);
+            addNode(interval->low, treeLow, &toProcess);
+            addNode(treeHigh, interval->high, &toProcess);
+        }
+        // s2 s1 e2 e1 change start
+        else if (interval->low < treeLow && interval->high < treeHigh)
+        {
+            addNode(treeLow, interval->high, pIntersection);
+            addNode(interval->low, treeLow, &toProcess);
+        }
+        // s1 s2 e1 e2 change end
+        else if (treeLow < interval->low && treeHigh < interval->high)
+        {
+            addNode(interval->low, treeHigh, pIntersection);
+            addNode(treeHigh, interval->high, &toProcess);
+        }
+        // s1 s2 e2 e1 split to 2
+        else
+        {
+            addNode(interval->low, interval->high, pIntersection);
+        }
+        if (toProcess == NULL)
+        {
+            return;
+        }
+        while (toProcess != NULL)
+        {
+            pCur = toProcess;
+            toProcess = removeHead(toProcess);
+
+            search_result = search(tree, *pCur->pInterval);
+
+            if (search_result != NULL)
+                break;
+
+            addNode(pCur->pInterval->low, pCur->pInterval->high, pLeftOver);
+        }
+    }
+}

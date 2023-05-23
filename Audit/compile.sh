@@ -1,0 +1,1 @@
+clang -I ../Utilities/ -shared -g -ldl -fPIC wrappers.c logLibrary.c ../Utilities/IntervalTree.c ../Utilities/logUtilities.c -o auditLib.so
