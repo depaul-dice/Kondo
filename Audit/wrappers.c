@@ -6,6 +6,21 @@
 SysData *systemData;
 int setup = 0;
 
+int openat(int dirfd, const char *filename, int flags)
+{
+    if(setup == 0)
+    {
+        initSystem();
+    }
+    
+    int ret = getSysData()->functions->real_open(filename, flags);
+    if(checkTrackingPath(filename))
+    {
+        logOpen(filename, ret, NULL, OPENAT);
+    }
+    return ret; 
+}
+
 FILE *fopen(const char *filename, const char *mode)
 {
     if(setup == 0)

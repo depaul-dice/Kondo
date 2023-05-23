@@ -297,7 +297,7 @@ void logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType ty
 
     // add the read call
     addCall(metadata, call);
-    NodeList *newReads = getNonIntersectingRead(metadata->writeTree, &(Interval){metadata->filePointer, metadata->filePointer + readSize});
+    NodeList *newReads = getNonIntersectingRead(metadata->writeTree, &(Interval){call->offset,call->offset + readSize});
     while (newReads != NULL)
     {
         metadata->readTree = insertInterval(metadata->readTree, (Interval){newReads->pInterval->low, newReads->pInterval->high});

@@ -261,6 +261,10 @@ char *getCharOfCall(enum CallType type)
     case FOPEN:
         /* code */
         return "fopen";
+        break;   
+    case OPENAT:
+        /* code */
+        return "openat";
         break;
     case OPEN:
         /* code */

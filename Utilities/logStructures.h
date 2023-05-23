@@ -6,6 +6,7 @@ enum CallType
     FOPEN,
     OPEN,
     OPEN64,
+    OPENAT,
     
     FCLOSE,
     CLOSE,
