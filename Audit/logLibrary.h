@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "../Utilities/logUtilities.h"
+#include "../Utilities/logUtil/logUtilities.h"
 extern int setup;
 extern SysData* systemData;
 
