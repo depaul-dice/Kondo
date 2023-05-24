@@ -62,4 +62,6 @@ Node *search(Node *node, Interval interval);
 /// @param pIntersection double pointer to LL of intersections
 /// @param pLeftOver double pointer to LL of leftover parts of the Intersection
 void getIntersectionsAndChopInterval(Node *tree, Interval *pInterval, NodeList **pIntersection, NodeList **pLeftOver);
+
+Node *insertNoCombine(Node *node, Interval interval);
 #endif

@@ -74,6 +74,51 @@ Node *left_rotate(Node *x)
     return y;
 }
 
+Node *insertNoCombine(Node *node, Interval interval)
+{
+    // printf("Insert called inserting [%d,%d]\n", interval.low, interval.high);
+    if (node == NULL)
+    {
+        // printf("IS NULL\n");
+        return new_node(interval);
+    }
+    if (interval.low < node->interval.low)
+    {
+        // printf("If 1\n");
+        node->left = insertNoCombine(node->left, interval);
+    }
+    else
+    {
+        // printf("Else 1");
+        node->right = insertNoCombine(node->right, interval);
+    }
+
+    node->height = max(height(node->left), height(node->right)) + 1;
+
+    node->max = max(max(get_max(node->left), get_max(node->right)), node->interval.high);
+
+    int balance = get_balance(node);
+
+    if (balance > 1 && interval.low < node->left->interval.low)
+        return right_rotate(node);
+
+    if (balance < -1 && interval.low > node->right->interval.low)
+        return left_rotate(node);
+
+    if (balance > 1 && interval.low > node->left->interval.low)
+    {
+        node->left = left_rotate(node->left);
+        return right_rotate(node);
+    }
+
+    if (balance < -1 && interval.low < node->right->interval.low)
+    {
+        node->right = right_rotate(node->right);
+        return left_rotate(node);
+    }
+
+    return node;
+}
 Node *insert(Node *node, Interval interval)
 {
     // printf("Insert called inserting [%d,%d]\n", interval.low, interval.high);
