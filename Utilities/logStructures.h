@@ -145,6 +145,9 @@ typedef struct fileMetadata
     // List of backups
     NodeList *backups;
 
+    // Size of the original file
+    size_t fileSize;
+
     // Handle to hash using absolute path
     UT_hash_handle pathHandle;
 

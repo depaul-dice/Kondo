@@ -128,19 +128,15 @@ NodeList *getNonIntersectingRead(Node *writeTree, Interval *readInterval)
 /// @param stream Stream to print it to
 void printMetadata(fileMetadata *metadata, FILE* stream)
 {
-    fprintf(stream, "********\n");
+    fprintf(stream, "%s:%ld\n",metadata->path, metadata->fileSize);
     fprintf(stream, "Read Tree\n");
     print_intervals(metadata->readTree, stream);
-    fprintf(stream, "********\n");
     fprintf(stream, "Write Tree\n");
     print_intervals(metadata->writeTree, stream);
-    fprintf(stream, "********\n");
     fprintf(stream, "Calls \n");
     printCalls(metadata, stream);
-    fprintf(stream, "********\n");
     fprintf(stream, "Backups \n");
     printBackup(metadata, stream);
-    fprintf(stream, "********\n");
 }
 
 /// @brief Print the calls for the given file

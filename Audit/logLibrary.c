@@ -163,6 +163,10 @@ void logOpen(const char *buf, int fd, FILE *fptr, enum CallType type)
         curFile->fd = fd;
         curFile->fptr = fptr;
         strcpy(curFile->path, path);
+        
+        struct stat st;
+        stat(curFile->path, &st);
+        curFile->fileSize = st.st_size;
 
         // Set the trees to NULL
         curFile->readTree = NULL;
