@@ -1,8 +1,13 @@
-#ifndef LOG_STRUCTURES_H
-#define LOG_STRUCTURES_H
-
+#ifndef REPEAT_STRUCTURES_H
+#define REPEAT_STRUCTURES_H
+#include "../uthash.h"
+#include "../IntervalTree.h"
+#include <stdio.h>
+#include <linux/limits.h>
 enum CallType
 {
+    UNINIT,
+    
     FOPEN,
     OPEN,
     OPEN64,
@@ -127,9 +132,9 @@ typedef struct fileMetadata
     // Absolute path
     char path[PATH_MAX];
 
+    char subsetPath[PATH_MAX];
     // Read and write Interval Trees
-    Node *readTree;
-    Node *writeTree;
+    Node *subsetTree;
 
     // File pointer of the file
     size_t filePointer;
@@ -137,18 +142,21 @@ typedef struct fileMetadata
     // status whether it is open or not
     int openStatus;
 
-    // List of calls made to this file
-    CallList *listOfCalls;
+    // List of calls made to this file originally
+    CallList *originalTrace;
 
-    // List of backups
-    NodeList *backups;
+    // the current call we are expecting
+    CallList *currentCall;
 
     // Size of the original file
-    size_t fileSize;
+    int fileSize;
 
     // Handle to hash using absolute path
     UT_hash_handle pathHandle;
 
+    FILE* subsetHandle;
+    
+    int subsetDec;
 } fileMetadata;
 
 typedef struct SysData

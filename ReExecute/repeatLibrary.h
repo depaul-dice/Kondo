@@ -1,15 +1,9 @@
-#ifndef LOG_LIBRARY_H
-#define LOG_LIBRARY_H
+#ifndef REPEAT_LIBRARY_H
+#define REPEAT_LIBRARY_H
 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <dlfcn.h>
-#include <linux/limits.h>
-#include <sys/stat.h>
 #include <sys/types.h>
+#include "../Utilities/repeatUtil/repeatUtilities.h"
 
-#include "../Utilities/logUtil/logUtilities.h"
 extern int setup;
 extern SysData* systemData;
 
@@ -37,7 +31,7 @@ int checkTrackingDesc(int fd);
 /// @param fd FD of the file or -1
 /// @param fptr File pointer fo the file or NULL
 /// @param type an Enumeration of what type of open call was made
-void logOpen(const char *buf, int fd, FILE *fptr, enum CallType tpye);
+void logOpen(const char *buf, int*fd, FILE **fptr, enum CallType tpye);
 
 /// @brief Close the file structures aptly and flush all metadata, provide 1 of fd or fptr
 /// @param fd fd if the file was opened using Fd else -1
@@ -70,5 +64,6 @@ void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType 
 /// @param whence mode for the seek SET/CUR/END
 /// @param type an Enumeration of what type of open call was made
 void logSeek(long off, FILE *fptr, int fd, int whence, enum CallType tpye);
+
 
 #endif

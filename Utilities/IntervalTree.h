@@ -6,6 +6,7 @@ typedef struct Interval
 {
     int low;
     int high;
+    int off;
 } Interval;
 
 typedef struct Node

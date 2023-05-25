@@ -26,7 +26,7 @@ def readFile(filePath):
         writeTree.append((int(res[0]), int(res[1])))
     index +=1
     while(lines[index]!='Backups '):
-        res = parse("{}:{}:{}:{}:{}", lines[index])
+        res = parse("{} {} {} {} {}", lines[index])
         calls.append(list(res))
         index+=1
     index +=1
@@ -75,15 +75,18 @@ def flushSubset(fileName, subset, size, ogPATH, calls):
     subFD = os.open("../AuditLog/SubsetData/{}.subset".format(fileName), os.O_WRONLY|os.O_CREAT)
     ptrFD = os.open("../AuditLog/SubsetData/{}.pointers".format(fileName), os.O_WRONLY|os.O_CREAT)
     traceFD = os.open("../AuditLog/SubsetData/{}.trace".format(fileName), os.O_WRONLY|os.O_CREAT)
-    os.write(ptrFD, bytes("{}:{}\n".format(ogPATH, size), 'utf-8'))
+    os.write(ptrFD, bytes("{}\n".format(ogPATH), 'utf-8'))
+    os.write(ptrFD, bytes("{}\n".format(size), 'utf-8'))
+    fileLoc = 0
     for obj in subset:
         os.write(subFD, obj["data"])
-        os.write(ptrFD, bytes("{}:{}\n".format(obj["start"],obj["end"]), 'utf-8'))
+        os.write(ptrFD, bytes("{}:{}:{}\n".format(obj["start"],obj["end"], fileLoc), 'utf-8'))
+        fileLoc+=obj["end"]
     os.close(subFD)
     os.close(ptrFD)
     calls = reversed(calls)
     for call in calls:
-        printItem = ":".join(call)
+        printItem = " ".join(call)
         os.write(traceFD, bytes("{}\n".format(printItem), 'utf-8'))
     os.close(traceFD)
 def parseFiles():

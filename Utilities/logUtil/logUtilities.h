@@ -5,7 +5,7 @@
 #include <sys/types.h>
 #include <dlfcn.h>
 
-#include "IntervalTree.h"
+#include "../IntervalTree.h"
 #include "uthash.h"
 #include "logStructures.h"
 

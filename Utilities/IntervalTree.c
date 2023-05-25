@@ -299,18 +299,18 @@ Node *chopTree(Node *root, Interval interval)
         // s2 s1 e2 e1 change start
         else if (interval.low < oldLow && interval.high < oldHigh)
         {
-            root = insert(root, (Interval){interval.high, oldHigh});
+            root = insert(root, (Interval){interval.high, oldHigh, -1});
         }
         // s1 s2 e1 e2 change end
         else if (oldLow < interval.low && oldHigh < interval.high)
         {
-            root = insert(root, (Interval){oldLow, interval.low});
+            root = insert(root, (Interval){oldLow, interval.low, -1});
         }
         // s1 s2 e2 e1 split to 2
         else
         {
-            root = insert(root, (Interval){oldLow, interval.low});
-            root = insert(root, (Interval){interval.high, oldHigh});
+            root = insert(root, (Interval){oldLow, interval.low, -1});
+            root = insert(root, (Interval){interval.high, oldHigh, -1});
         }
 
         search_result = search(root, interval);
@@ -323,7 +323,10 @@ void print_intervals(Node *node, FILE *stream)
     if (node == NULL)
         return;
     print_intervals(node->left, stream);
+    if(node->interval.off == -1)
     fprintf(stream, "[%d, %d]\n", node->interval.low, node->interval.high);
+    else
+    fprintf(stream, "[%d, %d]: %d\n", node->interval.low, node->interval.high, node->interval.off);
 
     print_intervals(node->right, stream);
 }
@@ -366,7 +369,7 @@ Node *chopAndReturn(Node *root, Interval interval, NodeList **pPtr)
         // s2 s1 e2 e1 change start
         else if (interval.low < oldLow && interval.high < oldHigh)
         {
-            root = insert(root, (Interval){interval.high, oldHigh});
+            root = insert(root, (Interval){interval.high, oldHigh, -1});
             // add s2 s1 to nodeList
 
             addNode(oldLow, interval.high, pPtr);
@@ -374,7 +377,7 @@ Node *chopAndReturn(Node *root, Interval interval, NodeList **pPtr)
         // s1 s2 e1 e2 change end
         else if (oldLow < interval.low && oldHigh < interval.high)
         {
-            root = insert(root, (Interval){oldLow, interval.low});
+            root = insert(root, (Interval){oldLow, interval.low, -1});
             // add s2 e1 to nodeList
 
             addNode(interval.low, oldHigh, pPtr);
@@ -382,8 +385,8 @@ Node *chopAndReturn(Node *root, Interval interval, NodeList **pPtr)
         // s1 s2 e2 e1 split to 2
         else
         {
-            root = insert(root, (Interval){oldLow, interval.low});
-            root = insert(root, (Interval){interval.high, oldHigh});
+            root = insert(root, (Interval){oldLow, interval.low, -1});
+            root = insert(root, (Interval){interval.high, oldHigh, -1});
             // add s2 e2 to nodeList
 
             addNode(interval.low, interval.high, pPtr);

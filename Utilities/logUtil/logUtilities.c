@@ -147,7 +147,7 @@ void printCalls(fileMetadata *metadata, FILE *stream)
     CallList *call = metadata->listOfCalls;
     while (call != NULL)
     {
-        fprintf(stream, "%s:%ld:%ld:%ld:%d\n", getCharOfCall(call->type), call->timeStamp, call->offset, call->size, call->other);
+        fprintf(stream, "%s %ld %ld %ld %d\n", getCharOfCall(call->type), call->timeStamp, call->offset, call->size, call->other);
         call = call->pNext;
     }
 }

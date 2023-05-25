@@ -109,7 +109,7 @@ int checkTrackingDesc(int fd)
     return 0;
 }
 
-/// @brief Add allm thje apt structures for the given file
+/// @brief Add all the apt structures for the given file
 /// @param buf Path to the file
 /// @param fd FD of the file or -1
 /// @param fptr File pointer fo the file or NULL
@@ -164,6 +164,7 @@ void logOpen(const char *buf, int fd, FILE *fptr, enum CallType type)
         curFile->fptr = fptr;
         strcpy(curFile->path, path);
         
+        // set size
         struct stat st;
         stat(curFile->path, &st);
         curFile->fileSize = st.st_size;
@@ -301,10 +302,10 @@ void logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType ty
 
     // add the read call
     addCall(metadata, call);
-    NodeList *newReads = getNonIntersectingRead(metadata->writeTree, &(Interval){call->offset,call->offset + readSize});
+    NodeList *newReads = getNonIntersectingRead(metadata->writeTree, &(Interval){call->offset,call->offset + readSize, -1});
     while (newReads != NULL)
     {
-        metadata->readTree = insertInterval(metadata->readTree, (Interval){newReads->pInterval->low, newReads->pInterval->high});
+        metadata->readTree = insertInterval(metadata->readTree, (Interval){newReads->pInterval->low, newReads->pInterval->high, -1});
         newReads = newReads->pNext;
     }
     // update file poitner only if we used it
@@ -372,7 +373,7 @@ void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType 
     call->other = -1;
     addCall(metadata, call);
 
-    performBackup(metadata, &(Interval){call->offset, call->size});
-    metadata->writeTree = insertInterval(metadata->writeTree, (Interval){call->offset, call->size});
+    performBackup(metadata, &(Interval){call->offset, call->size, -1});
+    metadata->writeTree = insertInterval(metadata->writeTree, (Interval){call->offset, call->size, -1});
 
 }
