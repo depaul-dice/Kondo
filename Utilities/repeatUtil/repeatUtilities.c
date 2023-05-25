@@ -348,3 +348,25 @@ char *getCharOfCall(enum CallType type)
         break;
     }
 }
+
+
+/* Function to reverse a Doubly Linked List */
+void reverse(NodeList** head_ref)
+{
+    NodeList* temp = NULL;
+    NodeList* current = *head_ref;
+ 
+    /* swap next and prev for all nodes of
+    doubly linked list */
+    while (current != NULL) {
+        temp = current->pPrev;
+        current->pPrev = current->pNext;
+        current->pNext = temp;
+        current = current->pPrev;
+    }
+ 
+    /* Before changing the head, check for the cases like
+       empty list and list with only one node */
+    if (temp != NULL)
+        *head_ref = temp->pPrev;
+}

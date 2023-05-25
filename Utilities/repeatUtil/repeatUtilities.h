@@ -55,4 +55,5 @@ void printCalls(fileMetadata *metadata, FILE *stream);
 /// @return a char ptr to the call type string representation
 char *getCharOfCall(enum CallType type);
 
+void reverse(NodeList** head_ref);
 #endif
