@@ -253,12 +253,22 @@ Node *delete(Node *node, Interval interval)
 
 Node *search(Node *node, Interval interval)
 {
-    // s1 e1 s2 e2
-    // printf("Checking overlap between [%d %d] and [%d %d]\n", node->interval.low, node->interval.high, interval.low, interval.high);
-    if (node == NULL || (node->interval.low < interval.high && interval.low < node->interval.high))
-        return node;
+    // Base Condition
+    if(node == NULL)
+        return NULL;
+    Node* res = NULL;
+    // check left hand side if viable
     if (node->left != NULL && node->left->max >= interval.low)
-        return search(node->left, interval);
+    {
+        res = search(node->left, interval);
+        if(res!=NULL)
+            return res;
+    }
+    // not on left so check cur
+    if ( (node->interval.low < interval.high && interval.low < node->interval.high))
+        return node;
+
+    // if not on left or cur then check right and return that irrespectively
     return search(node->right, interval);
 }
 void combineIntervals(Interval *Interval, int low, int high)
@@ -449,7 +459,9 @@ void getIntersectionsAndChopInterval(Node *tree, Interval *pInterval, NodeList *
         if (interval->low <= treeLow && interval->high >= treeHigh)
         {
             addNode(treeLow, treeHigh, pIntersection);
+            if(interval->low!=treeLow)
             addNode(interval->low, treeLow, &toProcess);
+            if(interval->high != treeHigh)
             addNode(treeHigh, interval->high, &toProcess);
         }
         // s2 s1 e2 e1 change start

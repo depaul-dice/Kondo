@@ -240,6 +240,8 @@ size_t logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType 
     // make sure the are sorted in the correct order
     NodeList* pInter;
     NodeList* pLeft;
+    getIntersectionsAndChopInterval(metadata->subsetTree, &(Interval){call->offset, call->offset+call->size, -1}, &pInter, &pLeft);
+
     return 0;
 }
 
