@@ -157,6 +157,8 @@ typedef struct fileMetadata
     FILE* subsetHandle;
     
     int subsetDec;
+    
+    int timestamp;
 } fileMetadata;
 
 typedef struct SysData

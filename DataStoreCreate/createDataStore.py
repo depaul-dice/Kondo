@@ -16,12 +16,12 @@ def readFile(filePath):
     calls = []
     backups = []
     while(lines[index]!='Write Tree'):
-        res = parse("[{}, {}]", lines[index])
+        res = parse("[{}, {}]: {}", lines[index])
         index+=1
         readTree.append((int(res[0]), int(res[1])))
     index +=1
     while(lines[index]!='Calls '):
-        res = parse("[{}, {}]", lines[index])
+        res = parse("[{}, {}]: {}", lines[index])
         index+=1
         writeTree.append((int(res[0]), int(res[1])))
     index +=1

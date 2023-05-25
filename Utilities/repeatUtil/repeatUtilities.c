@@ -176,8 +176,8 @@ void readTrace(fileMetadata* curFile, char* tracePath)
     while(1)
     {
         newCall = malloc(sizeof(CallList));
-
-        if(fscanf(traceFPTR, "%s %ld %ld %ld %d\n", tmp, &newCall->timeStamp, &newCall->offset, &newCall->size, &newCall->other ) == EOF)
+        int ret = fscanf(traceFPTR, "%s %d %d %d %d\n", tmp, &newCall->timeStamp, &newCall->offset, &newCall->size, &newCall->other );
+        if(ret == EOF)
             break;
         newCall->type = getType(tmp);
         addCall(curFile, newCall);

@@ -323,19 +323,16 @@ void print_intervals(Node *node, FILE *stream)
     if (node == NULL)
         return;
     print_intervals(node->left, stream);
-    if(node->interval.off == -1)
-    fprintf(stream, "[%d, %d]\n", node->interval.low, node->interval.high);
-    else
     fprintf(stream, "[%d, %d]: %d\n", node->interval.low, node->interval.high, node->interval.off);
-
     print_intervals(node->right, stream);
 }
-void addNode(int low, int high, NodeList **pHead)
+void addNode(int low, int high, int off, NodeList **pHead)
 {
     NodeList *pNewNode = malloc(sizeof(NodeList));
     pNewNode->pInterval = malloc(sizeof(Interval));
     pNewNode->pInterval->low = low;
     pNewNode->pInterval->high = high;
+    pNewNode->pInterval->off = off;
     if (*pHead == NULL)
     {
         *pHead = pNewNode;
@@ -358,38 +355,39 @@ Node *chopAndReturn(Node *root, Interval interval, NodeList **pPtr)
     {
         int oldLow = search_result->interval.low;
         int oldHigh = search_result->interval.high;
+        int off = search_result->interval.low;
         root = delete (root, search_result->interval);
         // 4 cases
         // s2 s1 e1 e2 full delete
         if (interval.low <= oldLow && interval.high >= oldHigh)
         {
             // add s1 e1 to nodeList
-            addNode(oldLow, oldHigh, pPtr);
+            addNode(oldLow, oldHigh, off, pPtr);
         }
         // s2 s1 e2 e1 change start
         else if (interval.low < oldLow && interval.high < oldHigh)
         {
-            root = insert(root, (Interval){interval.high, oldHigh, -1});
+            root = insert(root, (Interval){interval.high, oldHigh, interval.high - oldLow + off});
             // add s2 s1 to nodeList
 
-            addNode(oldLow, interval.high, pPtr);
+            addNode(oldLow, interval.high, off ,pPtr );
         }
         // s1 s2 e1 e2 change end
         else if (oldLow < interval.low && oldHigh < interval.high)
         {
-            root = insert(root, (Interval){oldLow, interval.low, -1});
+            root = insert(root, (Interval){oldLow, interval.low, off});
             // add s2 e1 to nodeList
 
-            addNode(interval.low, oldHigh, pPtr);
+            addNode(interval.low, oldHigh, interval.low - oldLow + off, pPtr);
         }
         // s1 s2 e2 e1 split to 2
         else
         {
-            root = insert(root, (Interval){oldLow, interval.low, -1});
-            root = insert(root, (Interval){interval.high, oldHigh, -1});
+            root = insert(root, (Interval){oldLow, interval.low, off});
+            root = insert(root, (Interval){interval.high, oldHigh, interval.high - oldLow + off});
             // add s2 e2 to nodeList
 
-            addNode(interval.low, interval.high, pPtr);
+            addNode(interval.low, interval.high, interval.low - oldLow + off, pPtr);
         }
 
         search_result = search(root, interval);
@@ -443,31 +441,32 @@ void getIntersectionsAndChopInterval(Node *tree, Interval *pInterval, NodeList *
     {
         int treeLow = search_result->interval.low;
         int treeHigh = search_result->interval.high;
+        int off = search_result->interval.off;
         Interval *interval = pCur->pInterval;
         // 4 cases
         // s2 s1 e1 e2
         if (interval->low <= treeLow && interval->high >= treeHigh)
         {
-            addNode(treeLow, treeHigh, pIntersection);
-            addNode(interval->low, treeLow, &toProcess);
-            addNode(treeHigh, interval->high, &toProcess);
+            addNode(treeLow, treeHigh, off, pIntersection);
+            addNode(interval->low, treeLow, interval->low - treeLow + off,&toProcess);
+            addNode(treeHigh, interval->high, treeHigh - treeLow + off, &toProcess);
         }
         // s2 s1 e2 e1 change start
         else if (interval->low < treeLow && interval->high < treeHigh)
         {
-            addNode(treeLow, interval->high, pIntersection);
-            addNode(interval->low, treeLow, &toProcess);
+            addNode(treeLow, interval->high, off, pIntersection);
+            addNode(interval->low, treeLow, interval->low - treeLow + off, &toProcess);
         }
         // s1 s2 e1 e2 change end
         else if (treeLow < interval->low && treeHigh < interval->high)
         {
-            addNode(interval->low, treeHigh, pIntersection);
-            addNode(treeHigh, interval->high, &toProcess);
+            addNode(interval->low, treeHigh, interval->low - treeLow + off, pIntersection);
+            addNode(treeHigh, interval->high, treeHigh - treeLow + off,&toProcess);
         }
         // s1 s2 e2 e1 split to 2
         else
         {
-            addNode(interval->low, interval->high, pIntersection);
+            addNode(interval->low, interval->high, interval->low - treeLow + off, pIntersection);
         }
         if (toProcess == NULL)
         {
@@ -483,7 +482,7 @@ void getIntersectionsAndChopInterval(Node *tree, Interval *pInterval, NodeList *
             if (search_result != NULL)
                 break;
 
-            addNode(pCur->pInterval->low, pCur->pInterval->high, pLeftOver);
+            addNode(pCur->pInterval->low, pCur->pInterval->high, -1, pLeftOver);
         }
     }
 }

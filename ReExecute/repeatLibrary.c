@@ -113,11 +113,19 @@ int checkTrackingDesc(int fd)
 /// @param type an Enumeration of what type of open call was made
 void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
 {
-    // We have to first create the struct and if it is being opened for the first time
+    if(setup == 0)
+    {
+        initSystem();
+    }
 
-    // Get absolute path
+    // get absolute path
     char path[PATH_MAX];
     char *res = realpath(buf, path);
+    
+    // We have to first create the struct and if it is being opened for the first time
+    // create a struct to hold the opened file strucgt
+    openFile *newFile = malloc(sizeof(openFile));
+
 
     //check if opening for the first time
     SysData* curSys = getSysData();
@@ -171,6 +179,8 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
         // read in the original trace
         readTrace(curFile, traceBuf);
 
+        curFile->timestamp = 1;
+
     }
     else
     {
@@ -190,7 +200,61 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
             curFile->fptr = *fptr;
         }
         curFile->filePointer = 0;
+        curFile->timestamp += 1;
     }
+    // copy over the metadata to the struct for open files
+    strcpy(newFile->path, res);
+    newFile->fd = curFile->fd;
+    newFile->fptr = curFile->fptr;
+
+    // add to the three different hash tables
+
+    if (newFile->fd != -1)
+    {
+        // If it has FD add to FD table
+        HASH_ADD(fdHandle, curSys->openFiles->fileDescs, fd, sizeof(int), newFile);
+    }
+    else if (newFile->fptr != NULL)
+    {
+        // If it has FPTR add to FPTR table
+        HASH_ADD(fptrHandle, curSys->openFiles->filePtrs, fptr, sizeof(FILE *), newFile);
+    }
+    // add to Path table
+    HASH_ADD(pathHandle, curSys->openFiles->filePaths, path, strlen(path), newFile);
+
 }
 
 
+/// @brief Log a read for the file pointed to by fptr. If offset is -1 then file pointer is not changed, else it is
+/// @param offset -1 if we want to use the file pointer or a given offset if call is like pread where file pointer is not imapcted
+/// @param readSize Size to read
+/// @param fptr Pointer to the file pointer have to supply either fd or fptr
+/// @param fd File desc of the file have to supply either fd or fptr
+/// @param type an Enumeration of what type of open call was made
+size_t logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType type)
+{
+    fileMetadata *metadata = getMetadata(fptr, fd);
+
+    CallList *call = malloc(sizeof(CallList));
+    // if offset is -1 then we use file pointer
+    if (offset == -1)
+    {
+        call->offset = metadata->filePointer;
+    }
+    else
+    {
+        // else we read from provided offset
+        call->offset = offset;
+    }
+
+    call->size = readSize;
+    call->other = -1;
+    call->type = type;
+    // Now we need to search for all intersections between the interval for this read
+    // and the subset tree and combine them
+    // make sure the are sorted in the correct order
+    NodeList* pInter;
+    NodeList* pLeft;
+    getIntersectionsAndChopInterval(metadata->subsetTree, &(Interval){call->offset, call->offset+readSize, -1}, &pInter, &pLeft);
+    return call->size;
+}
