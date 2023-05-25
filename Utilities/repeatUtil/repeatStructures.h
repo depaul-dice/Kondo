@@ -154,9 +154,13 @@ typedef struct fileMetadata
     // Handle to hash using absolute path
     UT_hash_handle pathHandle;
 
+    
     FILE* subsetHandle;
     
     int subsetDec;
+
+    // timestamp of the call we are expecting next
+    int curTimeStamp;
 } fileMetadata;
 
 typedef struct SysData

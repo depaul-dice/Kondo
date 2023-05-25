@@ -21,3 +21,18 @@ FILE *fopen(const char *filename, const char *mode)
     return getSysData()->functions->real_fopen(filename, mode);
     return ret;
 }
+
+size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
+{
+    size_t ret ;
+
+    if(checkTrackingFptr(stream))
+    {
+        ret = logRead(-1, size*nmemb, stream, -1, FREAD);
+    }
+    else
+    {
+        ret = getSysData()->functions->real_fread(ptr, size, nmemb, stream);
+    }
+    return ret;
+}

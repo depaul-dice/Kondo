@@ -86,7 +86,7 @@ def flushSubset(fileName, subset, size, ogPATH, calls):
     os.close(ptrFD)
     calls = reversed(calls)
     for call in calls:
-        printItem = " ".join(call)
+        printItem = ":".join(call)
         os.write(traceFD, bytes("{}\n".format(printItem), 'utf-8'))
     os.close(traceFD)
 def parseFiles():

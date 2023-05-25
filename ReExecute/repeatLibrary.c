@@ -114,6 +114,12 @@ int checkTrackingDesc(int fd)
 void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
 {
     // We have to first create the struct and if it is being opened for the first time
+    if(setup == 0)
+    {
+        initSystem();
+    }
+
+
 
     // Get absolute path
     char path[PATH_MAX];
@@ -136,6 +142,8 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
         char ptrBuf[PATH_MAX] = {0};
         getFilePaths((char*) buf, (char*)traceBuf, (char*)subsetBuf, (char*)ptrBuf);
 
+        strcpy(curFile->path, path);
+        strcpy(curFile->subsetPath, subsetBuf);
 
         curFile->subsetHandle = curSys->functions->real_fopen(subsetBuf, "r");
         // Assign it a duummy ptr or fd
@@ -154,8 +162,6 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
             curFile->fptr = *fptr;
         }
 
-        strcpy(curFile->path, path);
-        strcpy(curFile->subsetPath, subsetBuf);
 
         curFile->subsetTree = NULL;
 
@@ -168,12 +174,20 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
         // set file to open
         curFile->openStatus = 1;
         
+        // set timestamp
+        curFile->curTimeStamp = 1;
+
         // read in the original trace
         readTrace(curFile, traceBuf);
 
+        // Add to hash table
+        addOpenFile(curFile->fd, curFile->fptr, curFile->path);
+        HASH_ADD(pathHandle, curSys->metaadata, path, strlen(path), curFile);
     }
     else
     {
+
+        curFile->curTimeStamp += 1;
         curFile->subsetHandle = curSys->functions->real_fopen(curFile->subsetPath, "r");
         if(type == OPEN || type == OPEN64 || type == OPENAT)
         {
@@ -189,8 +203,70 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
             curFile->subsetDec = -1;
             curFile->fptr = *fptr;
         }
+        addOpenFile(curFile->fd, curFile->fptr, curFile->path);
         curFile->filePointer = 0;
     }
 }
 
 
+/// @brief Log a read for the file pointed to by fptr. If offset is -1 then file pointer is not changed, else it is
+/// @param offset -1 if we want to use the file pointer or a given offset if call is like pread where file pointer is not imapcted
+/// @param readSize Size to read
+/// @param fptr Pointer to the file pointer have to supply either fd or fptr
+/// @param fd File desc of the file have to supply either fd or fptr
+/// @param type an Enumeration of what type of open call was made
+/// @return Returns the number of bytes read
+size_t logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType type)
+{
+
+    fileMetadata *metadata = getMetadata(fptr, fd);
+
+    CallList *call = malloc(sizeof(CallList));
+    // if offset is -1 then we use file pointer
+    if (offset == -1)
+    {
+        call->offset = metadata->filePointer;
+    }
+    else
+    {
+        // else we read from provided offset
+        call->offset = offset;
+    }
+    call->size = readSize;
+    call->other = -1;
+    call->type = type;
+    // Now we need to search for all intersections between the interval for this read
+    // and the subset tree and combine them
+    // make sure the are sorted in the correct order
+    NodeList* pInter;
+    NodeList* pLeft;
+    return 0;
+}
+
+void addOpenFile(int fd, FILE *fptr, char *path)
+{
+
+    SysData* curSys = getSysData();
+    // We have to first create the struct and if it is being opened for the first time
+    // create a struct to hold the opened file struct
+    openFile *newFile = malloc(sizeof(openFile));
+     // add to the three different hash tables
+
+    strcpy(newFile->path, path);
+    newFile->fd = fd;
+    newFile->fptr = fptr;
+
+    if (newFile->fd != -1)
+    {
+        // If it has FD add to FD table
+        HASH_ADD(fdHandle, curSys->openFiles->fileDescs, fd, sizeof(int), newFile);
+    }
+    else if (newFile->fptr != NULL)
+    {
+        // If it has FPTR add to FPTR table
+        HASH_ADD(fptrHandle, curSys->openFiles->filePtrs, fptr, sizeof(FILE *), newFile);
+    }
+    // add to Path table
+    HASH_ADD(pathHandle, curSys->openFiles->filePaths, path, strlen(path), newFile);
+
+}

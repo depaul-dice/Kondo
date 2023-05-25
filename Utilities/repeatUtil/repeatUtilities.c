@@ -173,15 +173,19 @@ void readTrace(fileMetadata* curFile, char* tracePath)
     FILE* traceFPTR = getSysData()->functions->real_fopen(tracePath, "r");  
     CallList* newCall;
     char* tmp;
-    while(1)
+    char c[1000];
+    char* token;
+    while(fgets(c,sizeof c, traceFPTR)!= NULL) /* read a line from a file */ 
     {
         newCall = malloc(sizeof(CallList));
-
-        if(fscanf(traceFPTR, "%s %ld %ld %ld %d\n", tmp, &newCall->timeStamp, &newCall->offset, &newCall->size, &newCall->other ) == EOF)
-            break;
-        newCall->type = getType(tmp);
+        token = strtok(c, ":");
+        newCall->type = getType(token);
+        token = strtok(NULL, c);
+        sscanf(token, "%ld:%ld:%ld:%d\n", &newCall->timeStamp, &newCall->offset, &newCall->size, &newCall->other );
+        memset(c, '\0', sizeof(c));
         addCall(curFile, newCall);
     }
+   
 }
 
 enum CallType getType(char* call)
@@ -247,5 +251,100 @@ void addCall(fileMetadata *metadata, CallList *call)
         metadata->originalTrace->pPrev = call;
         call->timeStamp = metadata->originalTrace->timeStamp + 1;
         metadata->originalTrace = call;
+    }
+}
+
+
+/// @brief Print the calls for the given file
+/// @param metadata Metadata structure fo the file to pritn calls for
+/// @param stream stream to print to
+void printCalls(fileMetadata *metadata, FILE *stream)
+{
+    CallList *call = metadata->originalTrace;
+    while (call != NULL)
+    {
+        fprintf(stream, "%s %ld %ld %ld %d\n", getCharOfCall(call->type), call->timeStamp, call->offset, call->size, call->other);
+        call = call->pNext;
+    }
+}
+
+/// @brief Give the char version of the call type enum
+/// @param  enumeration of the type of call
+/// @return a char ptr to the call type string representation
+char *getCharOfCall(enum CallType type)
+{
+    switch (type)
+    {
+    case FOPEN:
+        /* code */
+        return "fopen";
+        break;   
+    case OPENAT:
+        /* code */
+        return "openat";
+        break;
+    case OPEN:
+        /* code */
+        return "open";
+        break;
+    case OPEN64:
+        /* code */
+        return "open64";
+        break;
+    case FREAD:
+        /* code */
+        return "fread";
+        break;
+    case PREAD:
+        /* code */
+        return "pread";
+        break;
+    case PREAD64:
+        /* code */
+        return "pread64";
+        break;
+    case PREADCHK:
+        /* code */
+        return "preadchk";
+        break;
+    case READ:
+        /* code */
+        return "read";
+        break;
+    case FWRITE:
+        /* code */
+        return "fwrite";
+        break;
+    case WRITE:
+        /* code */
+        return "write";
+        break;
+    case PWRITE:
+        /* code */
+        return "Pwrite";
+        break;
+    case FSEEK:
+        /* code */
+        return "fseek";
+        break;
+    case LSEEK64:
+        /* code */
+        return "lseek64";
+        break;
+    case LSEEK:
+        /* code */
+        return "lseek";
+        break;
+    case FCLOSE:
+        /* code */
+        return "fclose";
+        break;
+    case CLOSE:
+        /* code */
+        return "close";
+        break;
+    default:
+        return "Undefined";
+        break;
     }
 }

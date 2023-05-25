@@ -44,4 +44,15 @@ enum CallType getType(char* call);
 /// @param metadata metadata structure of file to which we want to add the call
 /// @param call Call to add to the structure
 void addCall(fileMetadata *metadata, CallList *call);
+
+/// @brief Print the calls for the given file
+/// @param metadata Metadata structure fo the file to pritn calls for
+/// @param stream stream to print to
+void printCalls(fileMetadata *metadata, FILE *stream);
+
+/// @brief Give the char version of the call type enum
+/// @param  enumeration of the type of call
+/// @return a char ptr to the call type string representation
+char *getCharOfCall(enum CallType type);
+
 #endif
