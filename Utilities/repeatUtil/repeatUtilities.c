@@ -39,6 +39,9 @@ void initRealFunctions()
     getSysData()->functions->real_fseek = dlsym(RTLD_NEXT, "fseek");
     getSysData()->functions->real_lseek = dlsym(RTLD_NEXT, "lseek");
     getSysData()->functions->real_lseek64 = dlsym(RTLD_NEXT, "lseek64");
+
+    getSysData()->functions->real_fstat = dlsym(RTLD_NEXT, "fstat");
+    getSysData()->functions->real_fstat64 = dlsym(RTLD_NEXT, "fstat64");
 }
 
 /// @brief Check whether the file at the given path is supposed to be interposed or not
@@ -234,6 +237,11 @@ enum CallType getType(char* call)
         return LSEEK;
     if(strcmp("lseek64", call)==0)
         return LSEEK64;
+
+    if(strcmp("fstat", call)==0)
+        return FSTAT;
+    if(strcmp("fstat64", call)==0)
+        return FSTAT64;
     return UNINIT;
 }
 /// @brief Add the given call to the given metadata structure
@@ -345,6 +353,14 @@ char *getCharOfCall(enum CallType type)
         /* code */
         return "close";
         break;
+    case FSTAT:
+        /* code */
+        return "fstat";
+        break;
+    case FSTAT64:
+        /* code */
+        return "fstat64";
+        break;
     default:
         return "Undefined";
         break;
@@ -392,7 +408,6 @@ void getBytes(fileMetadata* metadata, NodeList* pHead, void* ptr)
         size += pCur->pInterval->high - pCur->pInterval->low;
         pCur = pCur->pNext;
     }
-    fprintf(stdout, "Just read %s\n", (char*)ptr);
 }
 
 

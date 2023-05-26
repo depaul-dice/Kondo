@@ -3,7 +3,7 @@
 
 #include "repeatStructures.h"
 #include "../IntervalTree.h"
-
+#include <sys/stat.h>
 #define SUBSET_DIR "../AuditLog/SubsetData/" 
 
 extern int setup;

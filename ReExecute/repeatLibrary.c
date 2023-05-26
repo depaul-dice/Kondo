@@ -1,5 +1,5 @@
 #include "repeatLibrary.h"
-
+#include <sys/stat.h>
 /// @brief Initialise the system to start tracking
 void initSystem()
 {
@@ -62,7 +62,7 @@ int checkTrackingPath(const char *filename)
     char *res = realpath(filename, path);
     if (res == NULL)
     {
-        return 0;
+        return inList((char *)filename);
     }
     else
     {
@@ -111,8 +111,10 @@ int checkTrackingDesc(int fd)
 /// @param fd FD of the file or -1
 /// @param fptr File pointer fo the file or NULL
 /// @param type an Enumeration of what type of open call was made
-void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
+/// @return For OPEN, OPEN64 and OPENAT returns FD else -1
+int logOpen(const char *buf, int fd, FILE **fptr, enum CallType type)
 {
+    int ret;
     // We have to first create the struct and if it is being opened for the first time
     if(setup == 0)
     {
@@ -155,9 +157,9 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
         // Assign it a duummy ptr or fd
         if(type == OPEN || type == OPEN64 || type == OPENAT)
         {
-            *fd = curSys->functions->real_open(subsetBuf, 0);
-            curFile->fd = *fd;
-            curFile->subsetDec = *fd;
+            ret = curSys->functions->real_open(subsetBuf, 0);
+            curFile->fd = ret;
+            curFile->subsetDec = ret;
             curFile->fptr = NULL;
         }
         else
@@ -197,9 +199,9 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
         curFile->subsetHandle = curSys->functions->real_fopen(curFile->subsetPath, "r");
         if(type == OPEN || type == OPEN64 || type == OPENAT)
         {
-            *fd = curSys->functions->real_open(curFile->subsetPath, 0);
-            curFile->fd = *fd;
-            curFile->subsetDec = *fd;
+            ret = curSys->functions->real_open(curFile->subsetPath, 0);
+            curFile->fd = ret;
+            curFile->subsetDec = ret;
             curFile->fptr = NULL;
         }
         else
@@ -213,6 +215,11 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
         curFile->filePointer = 0;
     }
     compareCalls(curFile, curCall);
+    if(type == OPEN || type == OPEN64 || type == OPENAT)
+    {
+        return ret;
+    }
+    return -1;
 }
 
 
@@ -405,5 +412,39 @@ fprintf(stdout, "*****\n");
     metadata->subsetTree = insertNoCombine(metadata->subsetTree, (Interval){call->offset, call->offset+wrtteSize, offsetInWriteCache, 1});
     print_intervals(metadata->subsetTree, stdout, 1);
 fprintf(stdout, "*****\n");
+    compareCalls(metadata, call);
+}
+
+/// @brief Log a stat call for given fd
+/// @param fptr File Pointer of file to log call for
+/// @param fd FD of file to log call for
+/// @param type Type of call we are logging
+
+/// @param buf a void* pointer to a stat or stat64
+void logStat(FILE* fptr, int fd, enum CallType type, void* buf)
+{
+    fileMetadata *metadata = getMetadata(fptr, fd);
+
+    CallList *call = malloc(sizeof(CallList));   
+    call->type = type;
+    call->size = -1;
+    call->offset = -1;
+    call->other =-1;
+
+    // TODO Make it more genericc
+    // get the actual stat 
+    if(metadata->fd != -1)
+    {
+        if(type == FSTAT)
+        {
+            int ret = getSysData()->functions->real_fstat(metadata->fd, (struct stat*)buf);
+            ((struct stat*)buf)->st_size = metadata->fileSize;
+        }
+        else if(type == FSTAT64)
+        {
+            int ret = getSysData()->functions->real_fstat64(metadata->fd, (struct stat*)buf); 
+            ((struct stat*)buf)->st_size = metadata->fileSize;  
+        }
+    }
     compareCalls(metadata, call);
 }

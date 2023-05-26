@@ -1,6 +1,6 @@
 #ifndef LOG_STRUCTURES_H
 #define LOG_STRUCTURES_H
-
+#include <sys/stat.h>
 enum CallType
 {
     FOPEN,
@@ -23,7 +23,10 @@ enum CallType
 
     FWRITE,
     WRITE,
-    PWRITE
+    PWRITE,
+
+    FSTAT,
+    FSTAT64
 };
 
 typedef struct CallList
@@ -92,6 +95,10 @@ typedef struct realFunctions
     int (*real_fseek)(FILE *stream, long int offset, int whence);
     off_t (*real_lseek)(int fildes, off_t offset, int whence);
     off_t (*real_lseek64)(int fildes, off_t offset, int whence);
+
+    // Flavours of stat
+    int (*real_fstat)(int fd, struct stat *buf);
+    int (*real_fstat64)(int fd, struct stat *buf);
 
 } realFunctions;
 

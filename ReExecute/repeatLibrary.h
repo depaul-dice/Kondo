@@ -31,7 +31,8 @@ int checkTrackingDesc(int fd);
 /// @param fd FD of the file or -1
 /// @param fptr File pointer fo the file or NULL
 /// @param type an Enumeration of what type of open call was made
-void logOpen(const char *buf, int*fd, FILE **fptr, enum CallType tpye);
+/// @return For OPEN, OPEN64 and OPENAT returns FD else -1
+int logOpen(const char *buf, int fd, FILE **fptr, enum CallType tpye);
 
 /// @brief Close the file structures aptly and flush all metadata, provide 1 of fd or fptr
 /// @param fd fd if the file was opened using Fd else -1
@@ -67,6 +68,13 @@ void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType 
 /// @param whence mode for the seek SET/CUR/END
 /// @param type an Enumeration of what type of open call was made
 void logSeek(long off, FILE *fptr, int fd, int whence, enum CallType tpye);
+
+
+/// @brief Log a stat call for given fd
+/// @param fptr File Pointer of file to log call for
+/// @param fd FD of file to log call for
+/// @param buf a void* pointer to a stat or stat64
+void logStat(FILE* fptr, int fd, enum CallType type, void* buf);
 
 void addOpenFile(int fd, FILE* fptr, char* path);
 #endif

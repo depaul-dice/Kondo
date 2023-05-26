@@ -193,3 +193,21 @@ off_t lseek64(int fildes, off_t offset, int whence)
     }
     return getSysData()->functions->real_lseek64(fildes, offset, whence);
 }
+
+int fstat(int fd, struct stat *buf)
+{
+    if(checkTrackingDesc(fd))
+    {
+        logStat(NULL,fd, FSTAT);    
+    }
+    return getSysData()->functions->real_fstat(fd, buf);
+}
+
+int fstat64(int fd, struct stat64 *buf)
+{
+    if(checkTrackingDesc(fd))
+    {
+        logStat(NULL, fd, FSTAT64);    
+    }
+    return getSysData()->functions->real_fstat64(fd, (struct stat*)buf);
+}

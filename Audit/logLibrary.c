@@ -65,7 +65,7 @@ int checkTrackingPath(const char *filename)
     char *res = realpath(filename, path);
     if (res == NULL)
     {
-        return 0;
+        return inList((char *)filename);
     }
     else
     {
@@ -376,4 +376,21 @@ void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType 
     performBackup(metadata, &(Interval){call->offset, call->offset+ call->size, -1});
     metadata->writeTree = insertInterval(metadata->writeTree, (Interval){call->offset, call->offset+call->size, -1, -1});
 
+}
+
+
+/// @brief Log a stat call for given fd
+/// @param fptr File Pointer of file to log call for
+/// @param fd FD of file to log call for
+/// @param type Type of call we are logging
+void logStat(FILE* fptr, int fd, enum CallType type)
+{
+    fileMetadata *metadata = getMetadata(fptr, fd);
+
+    CallList *call = malloc(sizeof(CallList));   
+    call->type = type;
+    call->size = -1;
+    call->offset = -1;
+    call->other =-1;
+    addCall(metadata, call);
 }
