@@ -45,8 +45,9 @@ void logClose(int fd, FILE *fptr, enum CallType tpye);
 /// @param fptr Pointer to the file pointer have to supply either fd or fptr
 /// @param fd File desc of the file have to supply either fd or fptr
 /// @param type an Enumeration of what type of open call was made
+/// @param ptr Pointer to the buffer where to store data
 /// @return Returns the number of bytes read
-size_t logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType tpye);
+size_t logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType tpye, void* ptr);
 
 /// @brief given the offset at which write is happening, or -1 if the write is from the current file pointer
 /// log the write call and perform the needed backups

@@ -130,6 +130,11 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
     fileMetadata *curFile = NULL;
     HASH_FIND(pathHandle, curSys->metaadata, path, strlen(path), curFile);
 
+    CallList* curCall = malloc(sizeof(CallList));
+    curCall->offset = -1;
+    curCall->size = -1;
+    curCall->other = -1;
+    curCall->type = type;
     // if opening for the first time
     if (curFile== NULL)
     {
@@ -175,10 +180,11 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
         curFile->openStatus = 1;
         
         // set timestamp
-        curFile->curTimeStamp = 1;
+        curFile->curTimeStamp = 0;
 
         // read in the original trace
         readTrace(curFile, traceBuf);
+        curFile->currentCall = curFile->originalTrace;
 
         // Add to hash table
         addOpenFile(curFile->fd, curFile->fptr, curFile->path);
@@ -206,6 +212,7 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
         addOpenFile(curFile->fd, curFile->fptr, curFile->path);
         curFile->filePointer = 0;
     }
+    compareCalls(curFile, curCall);
 }
 
 
@@ -215,8 +222,9 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
 /// @param fptr Pointer to the file pointer have to supply either fd or fptr
 /// @param fd File desc of the file have to supply either fd or fptr
 /// @param type an Enumeration of what type of open call was made
+/// @param ptr Pointer to the buffer where to store data
 /// @return Returns the number of bytes read
-size_t logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType type)
+size_t logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType type, void* ptr)
 {
 
     fileMetadata *metadata = getMetadata(fptr, fd);
@@ -238,10 +246,15 @@ size_t logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType 
     // Now we need to search for all intersections between the interval for this read
     // and the subset tree and combine them
     // make sure the are sorted in the correct order
-    NodeList* pInter;
-    NodeList* pLeft;
+    NodeList* pInter = NULL;
+    NodeList* pLeft = NULL;
     getIntersectionsAndChopInterval(metadata->subsetTree, &(Interval){call->offset, call->offset+call->size, -1}, &pInter, &pLeft);
     reverse(&pInter);
+
+    // Add to interval object a flag for writeCache vs SubsetD
+    // traverse LL and read and combine all and return
+    getBytes(metadata, pInter, ptr);
+    compareCalls(metadata, call);
     return 0;
 }
 

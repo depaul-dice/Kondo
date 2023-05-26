@@ -156,6 +156,7 @@ typedef struct fileMetadata
 
     
     FILE* subsetHandle;
+    FILE* writeCache;
     
     int subsetDec;
 

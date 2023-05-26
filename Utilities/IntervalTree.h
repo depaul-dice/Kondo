@@ -7,6 +7,7 @@ typedef struct Interval
     int low;
     int high;
     int off;
+    int fileFlag;
 } Interval;
 
 typedef struct Node

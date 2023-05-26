@@ -84,7 +84,6 @@ def flushSubset(fileName, subset, size, ogPATH, calls):
         fileLoc+=obj["end"]
     os.close(subFD)
     os.close(ptrFD)
-    calls = reversed(calls)
     for call in calls:
         printItem = ":".join(call)
         os.write(traceFD, bytes("{}\n".format(printItem), 'utf-8'))

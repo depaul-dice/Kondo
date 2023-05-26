@@ -28,7 +28,7 @@ size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
 
     if(checkTrackingFptr(stream))
     {
-        ret = logRead(-1, size*nmemb, stream, -1, FREAD);
+        ret = logRead(-1, size*nmemb, stream, -1, FREAD, ptr);
     }
     else
     {

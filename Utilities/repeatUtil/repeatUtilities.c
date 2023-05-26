@@ -162,7 +162,7 @@ void readSubsetTree(fileMetadata* curFile, char* ptrPath)
     {
         if(fscanf(ptrFPTR, "%d:%d:%d", &low, &high, &off) == EOF)
             break;
-        curFile->subsetTree = insertNoCombine(curFile->subsetTree, (Interval){low, high, off});
+        curFile->subsetTree = insertNoCombine(curFile->subsetTree, (Interval){low, high, off, 0});
         
     }
 }
@@ -249,7 +249,6 @@ void addCall(fileMetadata *metadata, CallList *call)
         call->pNext = metadata->originalTrace;
         call->pPrev = NULL;
         metadata->originalTrace->pPrev = call;
-        call->timeStamp = metadata->originalTrace->timeStamp + 1;
         metadata->originalTrace = call;
     }
 }
@@ -369,4 +368,60 @@ void reverse(NodeList** head_ref)
        empty list and list with only one node */
     if (temp != NULL)
         *head_ref = temp->pPrev;
+}
+
+void getBytes(fileMetadata* metadata, NodeList* pHead, void* ptr)
+{
+    NodeList* pCur = pHead;
+    off_t size = 0;
+    while(pCur!=NULL)
+    {
+        if(pCur->pInterval->fileFlag == 0)
+        {
+            getSysData()->functions->real_fseek(metadata->subsetHandle, pCur->pInterval->off, SEEK_SET);
+            getSysData()->functions->real_fread(ptr+size,  pCur->pInterval->high - pCur->pInterval->low, 1, metadata->subsetHandle);
+        }
+        size += pCur->pInterval->high - pCur->pInterval->low;
+        pCur = pCur->pNext;
+    }
+    fprintf(stdout, "Just read %s\n", (char*)ptr);
+}
+
+
+void compareCalls(fileMetadata* metadata, CallList* curCall)
+{
+    CallList* cmpCall = metadata->currentCall;
+    int flg = 0;
+    if(curCall->type != cmpCall->type)
+    {
+        fprintf(stdout, "Types don't match\n");
+        flg = 1;
+    }
+    if(curCall->size != cmpCall->size)
+    {
+        fprintf(stdout, "Size doesn't match\n");
+        flg = 1;
+    }
+    if(curCall->offset != cmpCall->offset)
+    {
+        fprintf(stdout, "Offset doesn't match\n");
+        flg = 1;
+    }
+    if(metadata->curTimeStamp != cmpCall->timeStamp)
+    {
+        fprintf(stdout, "Timestamps don't match\n");
+        flg = 1;
+    }
+    if(curCall->other != cmpCall->other)
+    {
+        fprintf(stdout, "Others don't match\n");
+        flg = 1;
+    }
+    if(flg == 0)
+    {
+        fprintf(stdout, "calls matched\n");
+    }
+    metadata->currentCall = metadata->currentCall->pNext;
+    metadata->curTimeStamp +=1;
+    
 }

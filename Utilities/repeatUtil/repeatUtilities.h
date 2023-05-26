@@ -56,4 +56,8 @@ void printCalls(fileMetadata *metadata, FILE *stream);
 char *getCharOfCall(enum CallType type);
 
 void reverse(NodeList** head_ref);
+
+void getBytes(fileMetadata* metadata, NodeList* pHead, void* ptr);
+
+void compareCalls(fileMetadata* metadata, CallList* curCall);
 #endif
