@@ -130,3 +130,30 @@ off_t lseek64(int fildes, off_t offset, int whence)
         return getSysData()->functions->real_lseek64(fildes, offset, whence);
     }
 }
+
+int fclose(FILE *stream)
+{
+
+    if(checkTrackingFptr(stream))
+    {
+        logClose(-1, stream, FCLOSE);
+        return 0;
+    }
+    else
+    {
+        return getSysData()->functions->real_fclose(stream);
+    }
+}
+
+int close(int fd)
+{
+    if(checkTrackingDesc(fd))
+    {
+        logClose(fd, NULL, CLOSE);
+        return 0;
+    }
+    else
+    {
+        return getSysData()->functions->real_close(fd);
+    }
+}

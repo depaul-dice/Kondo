@@ -32,7 +32,7 @@ fileMetadata *getMetadata(FILE *fptr,int fd);
 /// @return 1 if tracking else 0
 int inList(char *path);
 
-void getFilePaths(char* fName, char*tracePath, char* subsetPath, char* ptrPath);
+void getFilePaths(char* fName, char*tracePath, char* subsetPath, char* ptrPath, char* writeCache);
 
 void readSubsetTree(fileMetadata* curFile, char* ptrPath);
 

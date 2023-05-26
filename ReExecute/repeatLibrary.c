@@ -119,8 +119,6 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
         initSystem();
     }
 
-
-
     // Get absolute path
     char path[PATH_MAX];
     char *res = realpath(buf, path);
@@ -145,12 +143,15 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
         char traceBuf[PATH_MAX] = {0};
         char subsetBuf[PATH_MAX] = {0};
         char ptrBuf[PATH_MAX] = {0};
-        getFilePaths((char*) buf, (char*)traceBuf, (char*)subsetBuf, (char*)ptrBuf);
+        char writeCache[PATH_MAX] = {0};
+        getFilePaths((char*) buf, (char*)traceBuf, (char*)subsetBuf, (char*)ptrBuf, (char*) writeCache);
 
         strcpy(curFile->path, path);
         strcpy(curFile->subsetPath, subsetBuf);
 
         curFile->subsetHandle = curSys->functions->real_fopen(subsetBuf, "r");
+        curFile->writeCache = curSys->functions->real_fopen(writeCache, "a");
+        curFile->writeCacheSize = 0 ;
         // Assign it a duummy ptr or fd
         if(type == OPEN || type == OPEN64 || type == OPENAT)
         {
@@ -314,5 +315,52 @@ void logSeek(long off, FILE* fptr, int fd, int whence, enum CallType type)
     {
         // TODO
     }
+
+}
+
+
+/// @brief Close the file structures aptly and flush all metadata, provide 1 of fd or fptr
+/// @param fd fd if the file was opened using Fd else -1
+/// @param fptr fptr if it ws using pointer else NULL
+/// @param type an Enumeration of what type of open call was made
+void logClose(int fd, FILE *fptr, enum CallType type)
+{
+    // check if metadata hodler already exists
+    fileMetadata *curFile = NULL;
+
+    SysData *curSys = getSysData();
+    if (setup == 0)
+    {
+        initSystem();
+    }
+    // pointer to hold struct returned
+    openFile *cur;
+    // check if file was using desc or fptr
+    if (fd != -1)
+    {
+        // find and delete
+        HASH_FIND(fdHandle, curSys->openFiles->fileDescs, &fd, sizeof(int), cur);
+        // setToClose(cur->path);
+        HASH_DELETE(fdHandle, curSys->openFiles->fileDescs, cur);
+    }
+    else if (fptr != NULL)
+    {
+        // find and delete
+        HASH_FIND(fptrHandle, curSys->openFiles->filePtrs, &fptr, sizeof(FILE *), cur);
+        // setToClose(cur->path);
+        HASH_DELETE(fptrHandle, curSys->openFiles->filePtrs, cur);
+    }
+    // delete from path table
+    HASH_DELETE(pathHandle, curSys->openFiles->filePaths, cur);
+    // free it
+
+    HASH_FIND(pathHandle, curSys->metaadata, cur->path, strlen(cur->path), curFile);
+    CallList *call = malloc(sizeof(CallList));
+    call->type = type;
+    call->offset = -1;
+    call->size = -1;
+    call->other = -1;g
+    compareCalls(curFile, call);
+    free(cur);
 
 }

@@ -128,7 +128,7 @@ int inList(char *path)
     return 0;
 }
 
-void getFilePaths(char* fileName, char*tracePath, char* subsetPath, char* ptrPath)
+void getFilePaths(char* fileName, char*tracePath, char* subsetPath, char* ptrPath, char* writeCache)
 {
         char* fName = strrchr(fileName, '/');
         if(fName == NULL)
@@ -148,6 +148,9 @@ void getFilePaths(char* fileName, char*tracePath, char* subsetPath, char* ptrPat
         
         strcpy(ptrPath, baseBuf);
         strcat(ptrPath,".pointers");
+
+        strcpy(writeCache, baseBuf);
+        strcat(writeCache,".writeCache");
 }
 
 void readSubsetTree(fileMetadata* curFile, char* ptrPath)
