@@ -5,7 +5,7 @@
 
 SysData *systemData;
 int setup = 0;
-
+// int callNum = 0;
 int openat(int dirfd, const char *filename, int flags)
 {
     if(setup == 0)
@@ -101,6 +101,14 @@ ssize_t __pread_chk(int fd, void *buf, size_t nbytes, off_t offset, size_t bufle
 
     if(checkTrackingDesc(fd))
     {
+        // char p[PATH_MAX] = {0};
+        // strcpy(p, "call");
+        // char num = '0'+callNum++;
+        // strcat(p,&num);
+        // strcat(p,".log");
+        // FILE* fptr = getSysData()->functions->real_fopen(p, "w+");
+        // getSysData()->functions->real_fwrite(buf, nbytes,1, fptr);
+        // getSysData()->functions->real_fclose(fptr);
         logRead(offset, nbytes, NULL, fd, PREADCHK);
     }
     return ret;
@@ -111,6 +119,7 @@ ssize_t pread(int fd, void *buf, size_t count, off_t offset)
 
     if(checkTrackingDesc(fd))
     {
+        
         logRead(offset, count, NULL, fd, PREAD);
     }
     return ret;
@@ -198,7 +207,7 @@ int fstat(int fd, struct stat *buf)
 {
     if(checkTrackingDesc(fd))
     {
-        logStat(NULL,fd, FSTAT);    
+        logStat(NULL, NULL,fd, FSTAT);    
     }
     return getSysData()->functions->real_fstat(fd, buf);
 }
@@ -207,7 +216,16 @@ int fstat64(int fd, struct stat64 *buf)
 {
     if(checkTrackingDesc(fd))
     {
-        logStat(NULL, fd, FSTAT64);    
+        logStat(NULL, NULL, fd, FSTAT64);    
     }
     return getSysData()->functions->real_fstat64(fd, (struct stat*)buf);
+}
+
+int lstat(const char *path, struct stat *buf)
+{
+    if(checkTrackingPath(path))
+    {
+        logStat(path, NULL, -1, LSTAT);
+    }
+    return getSysData()->functions->real_lstat(path, buf);
 }

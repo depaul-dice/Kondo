@@ -77,4 +77,6 @@ void logSeek(long off, FILE *fptr, int fd, int whence, enum CallType tpye);
 void logStat(FILE* fptr, int fd, enum CallType type, void* buf);
 
 void addOpenFile(int fd, FILE* fptr, char* path);
+
+void logLstat(const char *path, struct stat *buf);
 #endif

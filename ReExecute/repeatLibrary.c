@@ -147,7 +147,7 @@ int logOpen(const char *buf, int fd, FILE **fptr, enum CallType type)
         char ptrBuf[PATH_MAX] = {0};
         char writeCache[PATH_MAX] = {0};
         getFilePaths((char*) buf, (char*)traceBuf, (char*)subsetBuf, (char*)ptrBuf, (char*) writeCache);
-
+        memset(curFile->path, 0, PATH_MAX);
         strcpy(curFile->path, path);
         strcpy(curFile->subsetPath, subsetBuf);
 
@@ -185,12 +185,13 @@ int logOpen(const char *buf, int fd, FILE **fptr, enum CallType type)
         curFile->curTimeStamp = 0;
 
         // read in the original trace
+        curFile->originalTrace = NULL;
         readTrace(curFile, traceBuf);
         curFile->currentCall = curFile->originalTrace;
 
         // Add to hash table
         addOpenFile(curFile->fd, curFile->fptr, curFile->path);
-        HASH_ADD(pathHandle, curSys->metaadata, path, strlen(path), curFile);
+        HASH_ADD(pathHandle, curSys->metaadata, path, strlen(curFile->path), curFile);
     }
     else
     {
@@ -447,4 +448,19 @@ void logStat(FILE* fptr, int fd, enum CallType type, void* buf)
         }
     }
     compareCalls(metadata, call);
+}
+
+void logLstat(const char *path, struct stat *buf)
+{
+    char* fName = strrchr(path, '/');
+        if(fName == NULL)
+        {
+            fName = (char *)path;
+        }
+
+    char baseBuf[PATH_MAX] = {0};
+    strcpy(baseBuf, SUBSET_DIR);
+    strcat(baseBuf, fName);
+    strcat(baseBuf,".subset");
+    getSysData()->functions->real_lstat(baseBuf,buf);
 }

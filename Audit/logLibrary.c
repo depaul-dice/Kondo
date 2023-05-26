@@ -380,12 +380,21 @@ void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType 
 
 
 /// @brief Log a stat call for given fd
+/// @param path Path of file we are
 /// @param fptr File Pointer of file to log call for
 /// @param fd FD of file to log call for
 /// @param type Type of call we are logging
-void logStat(FILE* fptr, int fd, enum CallType type)
+void logStat(const char* path, FILE* fptr, int fd, enum CallType type)
 {
-    fileMetadata *metadata = getMetadata(fptr, fd);
+    fileMetadata *metadata = NULL;
+    if(path !=NULL)
+    {
+        HASH_FIND(pathHandle, getSysData()->metaadata, path, strlen(path), metadata);
+    }
+    else
+    {
+        metadata = getMetadata(fptr, fd);
+    }
 
     CallList *call = malloc(sizeof(CallList));   
     call->type = type;

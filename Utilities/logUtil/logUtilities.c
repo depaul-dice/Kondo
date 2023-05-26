@@ -39,6 +39,7 @@ void initRealFunctions()
 
     getSysData()->functions->real_fstat = dlsym(RTLD_NEXT, "fstat");
     getSysData()->functions->real_fstat64 = dlsym(RTLD_NEXT, "fstat64");
+    getSysData()->functions->real_lstat = dlsym(RTLD_NEXT, "lstat");
 }
 
 /// @brief Check whether the file at the given path is supposed to be interposed or not
@@ -332,6 +333,9 @@ char *getCharOfCall(enum CallType type)
     case FSTAT64:
         /* code */
         return "fstat64";
+        break;
+    case LSTAT:
+        return "lstat";
         break;
     default:
         return "Undefined";

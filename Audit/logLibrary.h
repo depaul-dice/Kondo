@@ -71,11 +71,11 @@ void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType 
 /// @param type an Enumeration of what type of open call was made
 void logSeek(long off, FILE *fptr, int fd, int whence, enum CallType tpye);
 
-
 /// @brief Log a stat call for given fd
+/// @param path Path of file we are
 /// @param fptr File Pointer of file to log call for
 /// @param fd FD of file to log call for
 /// @param type Type of call we are logging
-void logStat(FILE* fptr, int fd, enum CallType type);
+void logStat(const char* path, FILE* fptr, int fd, enum CallType type);
 
 #endif

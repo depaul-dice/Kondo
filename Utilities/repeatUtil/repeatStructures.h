@@ -32,7 +32,8 @@ enum CallType
     PWRITE,
 
     FSTAT,
-    FSTAT64
+    FSTAT64,
+    LSTAT
 };
 
 typedef struct CallList
@@ -105,6 +106,7 @@ typedef struct realFunctions
     // Flavours of stat
     int (*real_fstat)(int fd, struct stat *buf);
     int (*real_fstat64)(int fd, struct stat *buf);
+    int (*real_lstat)(const char *path, struct stat *buf);
 
 } realFunctions;
 

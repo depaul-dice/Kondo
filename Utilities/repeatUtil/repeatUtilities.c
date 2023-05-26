@@ -42,6 +42,7 @@ void initRealFunctions()
 
     getSysData()->functions->real_fstat = dlsym(RTLD_NEXT, "fstat");
     getSysData()->functions->real_fstat64 = dlsym(RTLD_NEXT, "fstat64");
+    getSysData()->functions->real_lstat = dlsym(RTLD_NEXT, "lstat");
 }
 
 /// @brief Check whether the file at the given path is supposed to be interposed or not
@@ -117,15 +118,16 @@ int inList(char *path)
             }
             openFile *cur;
             // Check if it is already opened or not
-            HASH_FIND(pathHandle, getSysData()->openFiles->filePaths, path, strlen(path), cur);
-            if (cur == NULL)
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
+            // HASH_FIND(pathHandle, getSysData()->openFiles->filePaths, path, strlen(path), cur);
+            // if (cur == NULL)
+            // {
+            //     return 1;
+            // }
+            // else
+            // {
+            //     return 0;
+            // }
+            return 1;
         }
     }
     return 0;
@@ -242,6 +244,9 @@ enum CallType getType(char* call)
         return FSTAT;
     if(strcmp("fstat64", call)==0)
         return FSTAT64;
+    if(strcmp("lstat", call)==0)
+        return LSTAT;
+    
     return UNINIT;
 }
 /// @brief Add the given call to the given metadata structure
@@ -361,6 +366,10 @@ char *getCharOfCall(enum CallType type)
         /* code */
         return "fstat64";
         break;
+    case LSTAT:
+        /* code */
+        return "lstat";
+        break;
     default:
         return "Undefined";
         break;
@@ -402,7 +411,7 @@ void getBytes(fileMetadata* metadata, NodeList* pHead, void* ptr)
         }
         else
         {
-                        getSysData()->functions->real_fseek(metadata->writeCache, pCur->pInterval->off, SEEK_SET);
+            getSysData()->functions->real_fseek(metadata->writeCache, pCur->pInterval->off, SEEK_SET);
             getSysData()->functions->real_fread(ptr+size,  pCur->pInterval->high - pCur->pInterval->low, 1, metadata->writeCache);
         }
         size += pCur->pInterval->high - pCur->pInterval->low;
@@ -415,6 +424,7 @@ void compareCalls(fileMetadata* metadata, CallList* curCall)
 {
     CallList* cmpCall = metadata->currentCall;
     int flg = 0;
+    fprintf(stdout, "comparing: %s og to %s now\n",getCharOfCall(cmpCall->type), getCharOfCall(curCall->type));
     if(curCall->type != cmpCall->type)
     {
         fprintf(stdout, "Types don't match\n");
