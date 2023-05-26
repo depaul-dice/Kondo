@@ -60,4 +60,6 @@ void reverse(NodeList** head_ref);
 void getBytes(fileMetadata* metadata, NodeList* pHead, void* ptr);
 
 void compareCalls(fileMetadata* metadata, CallList* curCall);
+
+size_t flushToCache(fileMetadata* metadata, FILE* fptr, const void* ptr, off_t wrtteSize);
 #endif

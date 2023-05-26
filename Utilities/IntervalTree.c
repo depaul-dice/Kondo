@@ -330,17 +330,17 @@ Node *chopTree(Node *root, Interval interval)
     return root;
 }
 
-void gprint_intervals(Node *node, FILE *stream)
+void print_intervals(Node *node, FILE *stream, int complete)
 {
     if (node == NULL)
         return;
-    print_intervals(node->left, stream);
-    if(node->interval.off == -1)
+    print_intervals(node->left, stream, complete);
+    if(complete != 1)
     fprintf(stream, "[%d, %d]\n", node->interval.low, node->interval.high);
     else
-    fprintf(stream, "[%d, %d]: %d\n", node->interval.low, node->interval.high, node->interval.off);
+    fprintf(stream, "[%d, %d]: %d %d\n", node->interval.low, node->interval.high, node->interval.off, node->interval.fileFlag);
 
-    print_intervals(node->right, stream);
+    print_intervals(node->right, stream, complete);
 }
 void addNode(int low, int high, int off, int fileFlag, NodeList **pHead)
 {

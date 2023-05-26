@@ -81,7 +81,7 @@ def flushSubset(fileName, subset, size, ogPATH, calls):
     for obj in subset:
         os.write(subFD, obj["data"])
         os.write(ptrFD, bytes("{}:{}:{}\n".format(obj["start"],obj["end"], fileLoc), 'utf-8'))
-        fileLoc+=obj["end"]
+        fileLoc+=(obj["end"]-obj["start"])
     os.close(subFD)
     os.close(ptrFD)
     for call in calls:

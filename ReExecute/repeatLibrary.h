@@ -56,7 +56,8 @@ size_t logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType 
 /// @param fptr Pointer to the file pointer have to supply either fd or fptr
 /// @param fd File desc of the file have to supply either fd or fptr
 /// @param type an Enumeration of what type of open call was made
-void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType tpye);
+/// @param ptr Pointer to the buffer that we are writing
+void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType type, const void* ptr);
 
 
 /// @brief Log the seek call and change metadata accordingly

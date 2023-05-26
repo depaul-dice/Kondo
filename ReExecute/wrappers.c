@@ -157,3 +157,17 @@ int close(int fd)
         return getSysData()->functions->real_close(fd);
     }
 }
+
+
+size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
+{
+    if(checkTrackingFptr(stream))
+    {
+        logWrite(-1, size*nmemb, stream, -1, FWRITE, ptr);    
+        return nmemb;
+    }
+    else
+    {
+        return getSysData()->functions->real_fwrite(ptr, size, nmemb, stream);   
+    }
+}

@@ -117,8 +117,8 @@ void addCall(fileMetadata *metadata, CallList *call)
 /// @return NULL if nothing to add a LL of intervals otherwise
 NodeList *getNonIntersectingRead(Node *writeTree, Interval *readInterval)
 {
-    NodeList *pIntersection;
-    NodeList *pLeftover;
+    NodeList *pIntersection = NULL;
+    NodeList *pLeftover = NULL;
     getIntersectionsAndChopInterval(writeTree, readInterval, &pIntersection, &pLeftover);
     return pLeftover;
 }
@@ -130,9 +130,9 @@ void printMetadata(fileMetadata *metadata, FILE* stream)
 {
     fprintf(stream, "%s:%ld\n",metadata->path, metadata->fileSize);
     fprintf(stream, "Read Tree\n");
-    print_intervals(metadata->readTree, stream);
+    print_intervals(metadata->readTree, stream, 0);
     fprintf(stream, "Write Tree\n");
-    print_intervals(metadata->writeTree, stream);
+    print_intervals(metadata->writeTree, stream, 0);
     fprintf(stream, "Calls \n");
     printCalls(metadata, stream);
     fprintf(stream, "Backups \n");

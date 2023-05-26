@@ -48,7 +48,8 @@ Node *chopAndReturn(Node *root, Interval interval, NodeList **pIntersection);
 /// @brief Print the given itnerval tree
 /// @param node root node of the tree to print
 /// @param stream stream to print to
-void print_intervals(Node *node, FILE *stream);
+/// @param complete 1 if you want offset and file flag to be printed too else 0
+void print_intervals(Node *node, FILE *stream, int complete);
 
 /// @brief Given an interval and a tree return the first node of the tree which
 /// intersects with the given interval

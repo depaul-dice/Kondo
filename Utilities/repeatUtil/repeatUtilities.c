@@ -384,6 +384,11 @@ void getBytes(fileMetadata* metadata, NodeList* pHead, void* ptr)
             getSysData()->functions->real_fseek(metadata->subsetHandle, pCur->pInterval->off, SEEK_SET);
             getSysData()->functions->real_fread(ptr+size,  pCur->pInterval->high - pCur->pInterval->low, 1, metadata->subsetHandle);
         }
+        else
+        {
+                        getSysData()->functions->real_fseek(metadata->writeCache, pCur->pInterval->off, SEEK_SET);
+            getSysData()->functions->real_fread(ptr+size,  pCur->pInterval->high - pCur->pInterval->low, 1, metadata->writeCache);
+        }
         size += pCur->pInterval->high - pCur->pInterval->low;
         pCur = pCur->pNext;
     }
@@ -427,4 +432,16 @@ void compareCalls(fileMetadata* metadata, CallList* curCall)
     metadata->currentCall = metadata->currentCall->pNext;
     metadata->curTimeStamp +=1;
     
+}
+size_t flushToCache(fileMetadata* metadata, FILE* fptr, const void* ptr, off_t wrtteSize)
+{
+    // seek to end of file 
+    getSysData()->functions->real_fseek(fptr, 0, SEEK_END);
+    // write
+    size_t dat = getSysData()->functions->real_fwrite(ptr, wrtteSize, 1, fptr);
+
+    // return the
+    size_t tmp = metadata->writeCacheSize;
+    metadata->writeCacheSize += wrtteSize;
+    return tmp;
 }

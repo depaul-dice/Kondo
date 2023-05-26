@@ -150,7 +150,7 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
         strcpy(curFile->subsetPath, subsetBuf);
 
         curFile->subsetHandle = curSys->functions->real_fopen(subsetBuf, "r");
-        curFile->writeCache = curSys->functions->real_fopen(writeCache, "a");
+        curFile->writeCache = curSys->functions->real_fopen(writeCache, "w+");
         curFile->writeCacheSize = 0 ;
         // Assign it a duummy ptr or fd
         if(type == OPEN || type == OPEN64 || type == OPENAT)
@@ -363,4 +363,47 @@ void logClose(int fd, FILE *fptr, enum CallType type)
     compareCalls(curFile, call);
     free(cur);
 
+}
+
+
+/// @brief given the offset at which write is happening, or -1 if the write is from the current file pointer
+/// log the write call and perform the needed backups
+/// @param offset offset for the write or -1 if using the current file pointer
+/// @param wrtteSize size fo the write
+/// @param fptr Pointer to the file pointer have to supply either fd or fptr
+/// @param fd File desc of the file have to supply either fd or fptr
+/// @param type an Enumeration of what type of open call was made
+/// @param ptr Pointer to the buffer that we are writing
+void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType type, const void* ptr)
+{
+    fileMetadata *metadata = getMetadata(fptr, fd);
+
+    CallList *call = malloc(sizeof(CallList));
+    // add to write tree
+    if (offset == -1)
+    {
+        call->offset = metadata->filePointer;
+    }
+    else
+    {
+        call->offset = offset;
+    }
+    call->type = type;
+    call->size = wrtteSize;
+    call->other = -1;
+
+    // Now we chop the tree with given write Interval
+    fprintf(stdout, "*****\n");
+    print_intervals(metadata->subsetTree, stdout, 1);
+    metadata->subsetTree = chopTree(metadata->subsetTree, (Interval){call->offset,call->offset+ call->size, -1, -1});
+    fprintf(stdout, "*****\n");
+    print_intervals(metadata->subsetTree, stdout, 1);
+    // Write the whole thing to the writeCache and update it
+    size_t offsetInWriteCache = flushToCache(metadata, metadata->writeCache, ptr, wrtteSize);
+fprintf(stdout, "*****\n");
+    // Add to the subsetTree
+    metadata->subsetTree = insertNoCombine(metadata->subsetTree, (Interval){call->offset, call->offset+wrtteSize, offsetInWriteCache, 1});
+    print_intervals(metadata->subsetTree, stdout, 1);
+fprintf(stdout, "*****\n");
+    compareCalls(metadata, call);
 }

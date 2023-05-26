@@ -373,7 +373,7 @@ void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType 
     call->other = -1;
     addCall(metadata, call);
 
-    performBackup(metadata, &(Interval){call->offset, call->size, -1});
-    metadata->writeTree = insertInterval(metadata->writeTree, (Interval){call->offset, call->size, -1});
+    performBackup(metadata, &(Interval){call->offset, call->offset+ call->size, -1});
+    metadata->writeTree = insertInterval(metadata->writeTree, (Interval){call->offset, call->offset+call->size, -1, -1});
 
 }
