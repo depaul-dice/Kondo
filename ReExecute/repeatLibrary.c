@@ -172,7 +172,6 @@ void logOpen(const char *buf, int *fd, FILE **fptr, enum CallType type)
 
         // read in the subset Tree and file size
         readSubsetTree(curFile, ptrBuf);
-        print_intervals(curFile->subsetTree, stdout);
         // set file pointer to start
         curFile->filePointer = 0;
 
@@ -283,5 +282,37 @@ void addOpenFile(int fd, FILE *fptr, char *path)
     }
     // add to Path table
     HASH_ADD(pathHandle, curSys->openFiles->filePaths, path, strlen(path), newFile);
+
+}
+
+
+/// @brief Log the seek call and change metadata accordingly
+/// @param off offset for the seek call
+/// @param fptr Pointer to the file pointer have to supply either fd or fptr
+/// @param fd File desc of the file have to supply either fd or fptr
+/// @param whence mode for the seek SET/CUR/END
+/// @param type an Enumeration of what type of open call was made
+void logSeek(long off, FILE* fptr, int fd, int whence, enum CallType type)
+{
+
+    fileMetadata* metadata = getMetadata(fptr, fd);
+    CallList* call = malloc(sizeof(CallList));
+    call->type = type;
+    call->offset = off;
+    call->size = -1;
+    call->other = whence;
+    compareCalls(metadata, call);
+    if(whence == SEEK_CUR)
+    {
+        metadata->filePointer += off;
+    }
+    else if(whence == SEEK_SET)
+    {
+        metadata->filePointer = off;
+    }   
+    else if(whence == SEEK_END)
+    {
+        // TODO
+    }
 
 }

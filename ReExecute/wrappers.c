@@ -36,3 +36,43 @@ size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
     }
     return ret;
 }
+
+int fseek(FILE *stream, long int offset, int whence)
+{
+    if(checkTrackingFptr(stream))
+    {
+        logSeek(offset, stream, -1, whence, FSEEK);
+        return 0;    
+    }
+    else
+    {
+        return getSysData()->functions->real_fseek(stream, offset, whence);
+    }
+
+}
+
+off_t lseek(int fildes, off_t offset, int whence)
+{
+    if(checkTrackingDesc(fildes))
+    {
+        logSeek(offset, NULL, fildes, whence, LSEEK);    
+        return 0;
+    }
+    else
+    {
+        return getSysData()->functions->real_lseek(fildes, offset, whence);
+    }
+}
+
+off_t lseek64(int fildes, off_t offset, int whence)
+{
+    if(checkTrackingDesc(fildes))
+    {
+        logSeek(offset, NULL, fildes, whence, LSEEK64);    
+        return 0;
+    }
+    else
+    {
+        return getSysData()->functions->real_lseek64(fildes, offset, whence);
+    }
+}

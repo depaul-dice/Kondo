@@ -419,7 +419,7 @@ void compareCalls(fileMetadata* metadata, CallList* curCall)
     }
     if(flg == 0)
     {
-        fprintf(stdout, "calls matched\n");
+        //fprintf(stdout, "calls matched\n");
     }
     metadata->currentCall = metadata->currentCall->pNext;
     metadata->curTimeStamp +=1;
