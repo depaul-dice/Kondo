@@ -359,7 +359,7 @@ void logClose(int fd, FILE *fptr, enum CallType type)
     call->type = type;
     call->offset = -1;
     call->size = -1;
-    call->other = -1;g
+    call->other = -1;
     compareCalls(curFile, call);
     free(cur);
 

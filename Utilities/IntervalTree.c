@@ -300,6 +300,8 @@ Node *chopTree(Node *root, Interval interval)
     {
         int oldLow = search_result->interval.low;
         int oldHigh = search_result->interval.high;
+        int off = search_result->interval.off;
+        int flg = search_result->interval.fileFlag;
         root = delete (root, search_result->interval);
         // 4 cases
         // s2 s1 e1 e2 full delete
@@ -309,18 +311,18 @@ Node *chopTree(Node *root, Interval interval)
         // s2 s1 e2 e1 change start
         else if (interval.low < oldLow && interval.high < oldHigh)
         {
-            root = insert(root, (Interval){interval.high, oldHigh, -1});
+            root = insert(root, (Interval){interval.high, oldHigh, interval.high-oldLow+off, flg});
         }
         // s1 s2 e1 e2 change end
         else if (oldLow < interval.low && oldHigh < interval.high)
         {
-            root = insert(root, (Interval){oldLow, interval.low, -1});
+            root = insert(root, (Interval){oldLow, interval.low, off, flg});
         }
         // s1 s2 e2 e1 split to 2
         else
         {
-            root = insert(root, (Interval){oldLow, interval.low, -1});
-            root = insert(root, (Interval){interval.high, oldHigh, -1});
+            root = insert(root, (Interval){oldLow, interval.low, off, flg});
+            root = insert(root, (Interval){interval.high, oldHigh, interval.high-oldLow+off, flg});
         }
 
         search_result = search(root, interval);
@@ -328,7 +330,7 @@ Node *chopTree(Node *root, Interval interval)
     return root;
 }
 
-void print_intervals(Node *node, FILE *stream)
+void gprint_intervals(Node *node, FILE *stream)
 {
     if (node == NULL)
         return;
