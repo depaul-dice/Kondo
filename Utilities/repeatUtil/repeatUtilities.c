@@ -424,7 +424,7 @@ void compareCalls(fileMetadata* metadata, CallList* curCall)
 {
     CallList* cmpCall = metadata->currentCall;
     int flg = 0;
-    fprintf(stdout, "comparing: %s og to %s now\n",getCharOfCall(cmpCall->type), getCharOfCall(curCall->type));
+    //fprintf(stdout, "comparing: %s og to %s now\n",getCharOfCall(cmpCall->type), getCharOfCall(curCall->type));
     if(curCall->type != cmpCall->type)
     {
         fprintf(stdout, "Types don't match\n");
