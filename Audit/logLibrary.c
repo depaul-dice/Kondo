@@ -189,6 +189,7 @@ void logOpen(const char *buf, int fd, FILE *fptr, enum CallType type)
         call->other = -1;
         call->offset = -1;
         call->size = -1;
+        call->hash = NULL;
         curFile->listOfCalls = NULL;
 
         // add the open call
@@ -218,6 +219,7 @@ void logOpen(const char *buf, int fd, FILE *fptr, enum CallType type)
         call->offset = -1;
         call->size = -1;
         call->other = -1;
+        call->hash = NULL;
 
         addCall(curFile, call);
     }
@@ -264,6 +266,7 @@ void logClose(int fd, FILE *fptr, enum CallType type)
     call->offset = -1;
     call->size = -1;
     call->other = -1;
+    call->hash = NULL;
     addCall(curFile, call);
     free(cur);
 
@@ -281,7 +284,8 @@ void logClose(int fd, FILE *fptr, enum CallType type)
 /// @param fptr Pointer to the file pointer have to supply either fd or fptr
 /// @param fd File desc of the file have to supply either fd or fptr
 /// @param type an Enumeration of what type of open call was made
-void logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType type)
+/// @param ptr Pointer to buffer with data that has been read
+void logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType type, void* ptr)
 {
     fileMetadata *metadata = getMetadata(fptr, fd);
     // create a read call
@@ -299,6 +303,9 @@ void logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType ty
     call->type = type;
     call->size = readSize;
     call->other = -1;
+
+    call->hash = getSHA256(ptr, readSize);
+    
 
     // add the read call
     addCall(metadata, call);
@@ -331,6 +338,7 @@ void logSeek(long off, FILE* fptr, int fd, int whence, enum CallType type)
     call->offset = off;
     call->size = -1;
     call->other = whence;
+    call->hash = NULL;
     addCall(metadata, call);
     if(whence == SEEK_CUR)
     {
@@ -354,7 +362,8 @@ void logSeek(long off, FILE* fptr, int fd, int whence, enum CallType type)
 /// @param fptr Pointer to the file pointer have to supply either fd or fptr
 /// @param fd File desc of the file have to supply either fd or fptr
 /// @param type an Enumeration of what type of open call was made
-void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType type)
+/// @param ptr Pointer of buffer holding data to write
+void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType type, const void* ptr)
 {
     fileMetadata *metadata = getMetadata(fptr, fd);
 
@@ -371,6 +380,7 @@ void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType 
     call->type = type;
     call->size = wrtteSize;
     call->other = -1;
+    call->hash = getSHA256((void*)ptr, wrtteSize);
     addCall(metadata, call);
 
     performBackup(metadata, &(Interval){call->offset, call->offset+ call->size, -1});
@@ -401,5 +411,6 @@ void logStat(const char* path, FILE* fptr, int fd, enum CallType type)
     call->size = -1;
     call->offset = -1;
     call->other =-1;
+    call->hash = NULL;
     addCall(metadata, call);
 }

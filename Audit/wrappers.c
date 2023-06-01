@@ -91,7 +91,7 @@ size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
 
     if(checkTrackingFptr(stream))
     {
-        logRead(-1, size*nmemb, stream, -1, FREAD);
+        logRead(-1, size*nmemb, stream, -1, FREAD, ptr);
     }
     return ret;
 }
@@ -109,7 +109,7 @@ ssize_t __pread_chk(int fd, void *buf, size_t nbytes, off_t offset, size_t bufle
         // FILE* fptr = getSysData()->functions->real_fopen(p, "w+");
         // getSysData()->functions->real_fwrite(buf, nbytes,1, fptr);
         // getSysData()->functions->real_fclose(fptr);
-        logRead(offset, nbytes, NULL, fd, PREADCHK);
+        logRead(offset, nbytes, NULL, fd, PREADCHK, buf);
     }
     return ret;
 }
@@ -120,7 +120,7 @@ ssize_t pread(int fd, void *buf, size_t count, off_t offset)
     if(checkTrackingDesc(fd))
     {
         
-        logRead(offset, count, NULL, fd, PREAD);
+        logRead(offset, count, NULL, fd, PREAD, buf);
     }
     return ret;
 }
@@ -131,7 +131,7 @@ ssize_t pread64(int fd, void *buf, size_t count, off_t offset)
 
     if(checkTrackingDesc(fd))
     {
-        logRead(offset, count, NULL, fd, PREAD64);
+        logRead(offset, count, NULL, fd, PREAD64, buf);
     }
     return ret;
 }
@@ -142,7 +142,7 @@ ssize_t read(int fd, void *buf, size_t count)
 
     if(checkTrackingDesc(fd))
     {
-        logRead(-1, count, NULL, fd, READ);
+        logRead(-1, count, NULL, fd, READ, buf);
     }
     return ret;
 }
@@ -151,7 +151,7 @@ size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
     if(checkTrackingFptr(stream))
     {
-        logWrite(-1, size*nmemb, stream, -1, FWRITE);    
+        logWrite(-1, size*nmemb, stream, -1, FWRITE, ptr);    
     }
     return getSysData()->functions->real_fwrite(ptr, size, nmemb, stream);   
 }
@@ -160,7 +160,7 @@ ssize_t write(int fildes, const void *buf, size_t nbytes)
 {
     if(checkTrackingDesc(fildes))
     {
-        logWrite(-1, nbytes, NULL, fildes, WRITE);    
+        logWrite(-1, nbytes, NULL, fildes, WRITE, buf);    
     }
     return getSysData()->functions->real_write(fildes, buf, nbytes);   
 }
@@ -169,7 +169,7 @@ ssize_t pwrite(int fd, const void *buf, size_t count, off_t offset)
 {
     if(checkTrackingDesc(fd))
     {
-        logWrite(offset, count, NULL, fd, PWRITE);    
+        logWrite(offset, count, NULL, fd, PWRITE, buf);    
     }
     return getSysData()->functions->real_pwrite(fd, buf, count, offset);     
 }

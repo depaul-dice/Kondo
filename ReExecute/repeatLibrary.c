@@ -150,7 +150,6 @@ int logOpen(const char *buf, int fd, FILE **fptr, enum CallType type)
         memset(curFile->path, 0, PATH_MAX);
         strcpy(curFile->path, path);
         strcpy(curFile->subsetPath, subsetBuf);
-
         curFile->subsetHandle = curSys->functions->real_fopen(subsetBuf, "r");
         curFile->writeCache = curSys->functions->real_fopen(writeCache, "w+");
         curFile->writeCacheSize = 0 ;
@@ -215,6 +214,7 @@ int logOpen(const char *buf, int fd, FILE **fptr, enum CallType type)
         addOpenFile(curFile->fd, curFile->fptr, curFile->path);
         curFile->filePointer = 0;
     }
+    strcpy(curCall->hash, "none\n");
     compareCalls(curFile, curCall);
     if(type == OPEN || type == OPEN64 || type == OPENAT)
     {
@@ -262,6 +262,15 @@ size_t logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType 
     // Add to interval object a flag for writeCache vs SubsetD
     // traverse LL and read and combine all and return
     getBytes(metadata, pInter, ptr);
+    unsigned char* ret = getSHA256((void*)ptr, readSize);
+    
+    //memset(call->hash, 0, HASH_LEN+1);
+    for(int i = 0; i <HASH_LEN/2; i++)
+    {   
+        char tmp [3]={0};
+        sprintf(tmp, "%02x", ret[i]);
+        strcat(call->hash,tmp);
+    }
     compareCalls(metadata, call);
     return 0;
 }
@@ -309,7 +318,8 @@ void logSeek(long off, FILE* fptr, int fd, int whence, enum CallType type)
     call->type = type;
     call->offset = off;
     call->size = -1;
-    call->other = whence;
+    call->other = whence;    
+    strcpy(call->hash, "none\n");
     compareCalls(metadata, call);
     if(whence == SEEK_CUR)
     {
@@ -368,6 +378,7 @@ void logClose(int fd, FILE *fptr, enum CallType type)
     call->offset = -1;
     call->size = -1;
     call->other = -1;
+    strcpy(call->hash, "none\n");
     compareCalls(curFile, call);
     free(cur);
 
@@ -377,12 +388,12 @@ void logClose(int fd, FILE *fptr, enum CallType type)
 /// @brief given the offset at which write is happening, or -1 if the write is from the current file pointer
 /// log the write call and perform the needed backups
 /// @param offset offset for the write or -1 if using the current file pointer
-/// @param wrtteSize size fo the write
+/// @param writeSize size fo the write
 /// @param fptr Pointer to the file pointer have to supply either fd or fptr
 /// @param fd File desc of the file have to supply either fd or fptr
 /// @param type an Enumeration of what type of open call was made
 /// @param ptr Pointer to the buffer that we are writing
-void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType type, const void* ptr)
+void logWrite(off_t offset, size_t writeSize, FILE *fptr, int fd, enum CallType type, const void* ptr)
 {
     fileMetadata *metadata = getMetadata(fptr, fd);
 
@@ -397,9 +408,15 @@ void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType 
         call->offset = offset;
     }
     call->type = type;
-    call->size = wrtteSize;
+    call->size = writeSize;
     call->other = -1;
-
+    unsigned char* ret = getSHA256((void*)ptr, writeSize);
+    for(int i = 0; i <HASH_LEN/2; i++)
+    {   
+        char tmp [3]={0};
+        sprintf(tmp, "%02x", ret[i]);
+        strcat(call->hash,tmp);
+    }
     // Now we chop the tree with given write Interval
     fprintf(stdout, "*****\n");
     print_intervals(metadata->subsetTree, stdout, 1);
@@ -407,12 +424,12 @@ void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType 
     fprintf(stdout, "*****\n");
     print_intervals(metadata->subsetTree, stdout, 1);
     // Write the whole thing to the writeCache and update it
-    size_t offsetInWriteCache = flushToCache(metadata, metadata->writeCache, ptr, wrtteSize);
-fprintf(stdout, "*****\n");
+    size_t offsetInWriteCache = flushToCache(metadata, metadata->writeCache, ptr, writeSize);
+    fprintf(stdout, "*****\n");
     // Add to the subsetTree
-    metadata->subsetTree = insertNoCombine(metadata->subsetTree, (Interval){call->offset, call->offset+wrtteSize, offsetInWriteCache, 1});
+    metadata->subsetTree = insertNoCombine(metadata->subsetTree, (Interval){call->offset, call->offset+writeSize, offsetInWriteCache, 1});
     print_intervals(metadata->subsetTree, stdout, 1);
-fprintf(stdout, "*****\n");
+    fprintf(stdout, "*****\n");
     compareCalls(metadata, call);
 }
 
@@ -447,6 +464,7 @@ void logStat(FILE* fptr, int fd, enum CallType type, void* buf)
             ((struct stat*)buf)->st_size = metadata->fileSize;  
         }
     }
+    strcpy(call->hash, "none\n");
     compareCalls(metadata, call);
 }
 

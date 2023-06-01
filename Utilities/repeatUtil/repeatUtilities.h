@@ -4,6 +4,7 @@
 #include "repeatStructures.h"
 #include "../IntervalTree.h"
 #include <sys/stat.h>
+#include <openssl/ssl.h>
 #define SUBSET_DIR "../AuditLog/SubsetData/" 
 
 extern int setup;
@@ -62,4 +63,6 @@ void getBytes(fileMetadata* metadata, NodeList* pHead, void* ptr);
 void compareCalls(fileMetadata* metadata, CallList* curCall);
 
 size_t flushToCache(fileMetadata* metadata, FILE* fptr, const void* ptr, off_t wrtteSize);
+
+unsigned char* getSHA256(void* buf, int len);
 #endif

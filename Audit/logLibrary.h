@@ -51,7 +51,8 @@ void logClose(int fd, FILE *fptr, enum CallType tpye);
 /// @param fptr Pointer to the file pointer have to supply either fd or fptr
 /// @param fd File desc of the file have to supply either fd or fptr
 /// @param type an Enumeration of what type of open call was made
-void logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType tpye);
+/// @param ptr Pointer to buffer with data that has been read
+void logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType tpye, void* ptr);
 
 /// @brief given the offset at which write is happening, or -1 if the write is from the current file pointer
 /// log the write call and perform the needed backups
@@ -60,7 +61,8 @@ void logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType tp
 /// @param fptr Pointer to the file pointer have to supply either fd or fptr
 /// @param fd File desc of the file have to supply either fd or fptr
 /// @param type an Enumeration of what type of open call was made
-void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType tpye);
+/// @param ptr Pointer of buffer holding data to write
+void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType tpye, const void* ptr);
 
 
 /// @brief Log the seek call and change metadata accordingly

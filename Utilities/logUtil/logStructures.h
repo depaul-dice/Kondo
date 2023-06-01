@@ -1,6 +1,7 @@
 #ifndef LOG_STRUCTURES_H
 #define LOG_STRUCTURES_H
 #include <sys/stat.h>
+#define HASH_LEN 32
 enum CallType
 {
     FOPEN,
@@ -48,6 +49,8 @@ typedef struct CallList
     // timestamp of the call
     off_t timeStamp;
 
+    // hash for read and writes
+    unsigned char* hash;
     // LL pointers
     struct CallList *pNext;
     struct CallList *pPrev;

@@ -26,7 +26,7 @@ def readFile(filePath):
         writeTree.append((int(res[0]), int(res[1])))
     index +=1
     while(lines[index]!='Backups '):
-        res = parse("{} {} {} {} {}", lines[index])
+        res = parse("{} {} {} {} {} {}", lines[index])
         calls.append(list(res))
         index+=1
     index +=1

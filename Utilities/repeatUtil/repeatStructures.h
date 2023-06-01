@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <linux/limits.h>
 #include <sys/stat.h>
+#define HASH_LEN 64
 enum CallType
 {
     UNINIT,
@@ -54,6 +55,8 @@ typedef struct CallList
     // timestamp of the call
     off_t timeStamp;
 
+    // hash
+    char hash[HASH_LEN+1];
     // LL pointers
     struct CallList *pNext;
     struct CallList *pPrev;

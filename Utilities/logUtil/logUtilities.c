@@ -151,7 +151,17 @@ void printCalls(fileMetadata *metadata, FILE *stream)
     CallList *call = metadata->listOfCalls;
     while (call != NULL)
     {
-        fprintf(stream, "%s %ld %ld %ld %d\n", getCharOfCall(call->type), call->timeStamp, call->offset, call->size, call->other);
+        if(call->hash==NULL)
+            fprintf(stream, "%s %ld %ld %ld %d %s\n", getCharOfCall(call->type), call->timeStamp, call->offset, call->size, call->other, "none");
+        else
+        {
+            fprintf(stream, "%s %ld %ld %ld %d ", getCharOfCall(call->type), call->timeStamp, call->offset, call->size, call->other);
+            for(int i = 0; i <HASH_LEN; i++)
+            {
+                fprintf(stream, "%02x", call->hash[i]);
+            }
+            fprintf(stream, "\n");
+        }
         call = call->pNext;
     }
 }
@@ -249,6 +259,16 @@ void printBackup(fileMetadata *metadata, FILE *stream)
         fprintf(stream, "%d:%d\n", node->pInterval->low, node->pInterval->high);
         node = node->pNext;
     }
+}
+
+unsigned char *getSHA256(void *buf, int len)
+{
+    const char ibuf[] = "compute sha1";
+    unsigned char* ret = malloc(HASH_LEN);
+
+    SHA256((const unsigned char*) buf, len, ret);
+    return ret;
+    
 }
 
 /// @brief Give the char version of the call type enum

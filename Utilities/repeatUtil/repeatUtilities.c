@@ -186,10 +186,15 @@ void readTrace(fileMetadata* curFile, char* tracePath)
     while(fgets(c,sizeof c, traceFPTR)!= NULL) /* read a line from a file */ 
     {
         newCall = malloc(sizeof(CallList));
+        char* ret = strrchr(c, ':');
+        memcpy(newCall->hash, ret+1, HASH_LEN);
+        newCall->hash[HASH_LEN] = 0;
         token = strtok(c, ":");
         newCall->type = getType(token);
         token = strtok(NULL, c);
-        sscanf(token, "%ld:%ld:%ld:%d\n", &newCall->timeStamp, &newCall->offset, &newCall->size, &newCall->other );
+        char* tmp = malloc(HASH_LEN);
+        sscanf(token, "%ld:%ld:%ld:%d:%s\n", &newCall->timeStamp, &newCall->offset, &newCall->size, &newCall->other,tmp);
+        free(tmp);
         memset(c, '\0', sizeof(c));
         addCall(curFile, newCall);
     }
@@ -450,6 +455,11 @@ void compareCalls(fileMetadata* metadata, CallList* curCall)
         fprintf(stdout, "Others don't match\n");
         flg = 1;
     }
+    if(strcmp(cmpCall->hash, curCall->hash)!=0)
+    {
+        fprintf(stdout, "Hashes don't match\n");
+        flg = 1;
+    }
     if(flg == 0)
     {
         //fprintf(stdout, "calls matched\n");
@@ -469,4 +479,14 @@ size_t flushToCache(fileMetadata* metadata, FILE* fptr, const void* ptr, off_t w
     size_t tmp = metadata->writeCacheSize;
     metadata->writeCacheSize += wrtteSize;
     return tmp;
+}
+
+unsigned char *getSHA256(void *buf, int len)
+{
+    const char ibuf[] = "compute sha1";
+    unsigned char* ret = malloc(HASH_LEN);
+
+    SHA256((const unsigned char*) buf, len, ret);
+    return ret;
+    
 }

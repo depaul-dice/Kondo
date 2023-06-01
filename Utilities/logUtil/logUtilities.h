@@ -4,6 +4,7 @@
 #include <limits.h>
 #include <sys/types.h>
 #include <dlfcn.h>
+#include <openssl/ssl.h>
 
 #include "../IntervalTree.h"
 #include "uthash.h"
@@ -94,4 +95,6 @@ char *getCharOfCall(enum CallType type);
 /// @param path Path to check
 /// @return 1 if tracking else 0
 int inList(char *path);
+
+unsigned char* getSHA256(void* buf, int len);
 #endif
