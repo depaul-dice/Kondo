@@ -195,7 +195,6 @@ int logOpen(const char *buf, int fd, FILE **fptr, enum CallType type)
     else
     {
 
-        curFile->curTimeStamp += 1;
         curFile->subsetHandle = curSys->functions->real_fopen(curFile->subsetPath, "r");
         if(type == OPEN || type == OPEN64 || type == OPENAT)
         {
@@ -214,6 +213,7 @@ int logOpen(const char *buf, int fd, FILE **fptr, enum CallType type)
         addOpenFile(curFile->fd, curFile->fptr, curFile->path);
         curFile->filePointer = 0;
     }
+
     strcpy(curCall->hash, "none\n");
     compareCalls(curFile, curCall);
     if(type == OPEN || type == OPEN64 || type == OPENAT)
@@ -264,7 +264,7 @@ size_t logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType 
     getBytes(metadata, pInter, ptr);
     unsigned char* ret = getSHA256((void*)ptr, readSize);
     
-    //memset(call->hash, 0, HASH_LEN+1);
+    memset(call->hash, 0, HASH_LEN+1);
     for(int i = 0; i <HASH_LEN/2; i++)
     {   
         char tmp [3]={0};
@@ -411,6 +411,7 @@ void logWrite(off_t offset, size_t writeSize, FILE *fptr, int fd, enum CallType 
     call->size = writeSize;
     call->other = -1;
     unsigned char* ret = getSHA256((void*)ptr, writeSize);
+    memset(call->hash, 0, HASH_LEN+1);
     for(int i = 0; i <HASH_LEN/2; i++)
     {   
         char tmp [3]={0};

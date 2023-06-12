@@ -141,6 +141,7 @@ void printMetadata(fileMetadata *metadata, FILE* stream)
     printCalls(metadata, stream);
     fprintf(stream, "Backups \n");
     printBackup(metadata, stream);
+    fflush(stream);
 }
 
 /// @brief Print the calls for the given file

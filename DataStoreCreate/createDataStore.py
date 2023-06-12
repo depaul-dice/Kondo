@@ -92,6 +92,7 @@ def parseFiles():
     listFiles = os.listdir("../AuditLog/")
     os.makedirs("../AuditLog/SubsetData",exist_ok=True)
     for file in listFiles:
+        print(file)
         if file == 'Backups':
             continue
         ret = readFile("../AuditLog/{}".format(file))
