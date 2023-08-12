@@ -1,0 +1,140 @@
+-----HULL for PROGRAM: LDC2D------
+Saved predicted valid offsets to ./data/LDC2D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC2D_with_hull.png
+Total number of predicted offsets: 3978
+
+-----GROUND TRUTH for PROGRAM: LDC2D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC2D_truth.png
+Total points in the ground truth: 4000
+Total predicted points: 3978
+Size of intersection: 3978
+Precision: 1.0, Recall: 0.9945
+Total space: 16384
+Percent Reduction: 0.7572021484375
+-----HULL for PROGRAM: LDC2D------
+Saved predicted valid offsets to ./data/LDC2D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC2D_with_hull.png
+Total number of predicted offsets: 3978
+
+-----GROUND TRUTH for PROGRAM: LDC2D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC2D_truth.png
+Total points in the ground truth: 4000
+Total predicted points: 3978
+Size of intersection: 3978
+Precision: 1.0, Recall: 0.9945
+Total space: 16384
+Percent Reduction: 0.7572021484375
+-----HULL for PROGRAM: LDC2D------
+Saved predicted valid offsets to ./data/LDC2D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC2D_with_hull.png
+Total number of predicted offsets: 3978
+
+-----GROUND TRUTH for PROGRAM: LDC2D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC2D_truth.png
+Total points in the ground truth: 4000
+Total predicted points: 3978
+Size of intersection: 3978
+Precision: 1.0, Recall: 0.9945
+Total space: 16384
+Percent Reduction: 0.7572021484375
+-----HULL for PROGRAM: LDC2D------
+Saved predicted valid offsets to ./data/LDC2D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC2D_with_hull.png
+Total number of predicted offsets: 3978
+
+-----GROUND TRUTH for PROGRAM: LDC2D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC2D_truth.png
+Total points in the ground truth: 4000
+Total predicted points: 3978
+Size of intersection: 3978
+Precision: 1.0, Recall: 0.9945
+Total space: 16384
+Percent Reduction: 0.7572021484375
+-----HULL for PROGRAM: LDC2D------
+Saved predicted valid offsets to ./data/LDC2D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC2D_with_hull.png
+Total number of predicted offsets: 3978
+
+-----GROUND TRUTH for PROGRAM: LDC2D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC2D_truth.png
+Total points in the ground truth: 4000
+Total predicted points: 3978
+Size of intersection: 3978
+Precision: 1.0, Recall: 0.9945
+Total space: 16384
+Percent Reduction: 0.7572021484375
+-----HULL for PROGRAM: LDC2D------
+Saved predicted valid offsets to ./data/LDC2D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC2D_with_hull.png
+Total number of predicted offsets: 3978
+
+-----GROUND TRUTH for PROGRAM: LDC2D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC2D_truth.png
+Total points in the ground truth: 4000
+Total predicted points: 3978
+Size of intersection: 3978
+Precision: 1.0, Recall: 0.9945
+Total space: 16384
+Percent Reduction: 0.7572021484375
+-----HULL for PROGRAM: LDC2D------
+Saved predicted valid offsets to ./data/LDC2D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC2D_with_hull.png
+Total number of predicted offsets: 3978
+
+-----GROUND TRUTH for PROGRAM: LDC2D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC2D_truth.png
+Total points in the ground truth: 4000
+Total predicted points: 3978
+Size of intersection: 3978
+Precision: 1.0, Recall: 0.9945
+Total space: 16384
+Percent Reduction: 0.7572021484375
+-----HULL for PROGRAM: LDC2D------
+Saved predicted valid offsets to ./data/LDC2D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC2D_with_hull.png
+Total number of predicted offsets: 3978
+
+-----GROUND TRUTH for PROGRAM: LDC2D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC2D_truth.png
+Total points in the ground truth: 4000
+Total predicted points: 3978
+Size of intersection: 3978
+Precision: 1.0, Recall: 0.9945
+Total space: 16384
+Percent Reduction: 0.7572021484375
+-----HULL for PROGRAM: LDC2D------
+Saved predicted valid offsets to ./data/LDC2D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC2D_with_hull.png
+Total number of predicted offsets: 9356
+
+-----GROUND TRUTH for PROGRAM: LDC2D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC2D_truth.png
+Total points in the ground truth: 4000
+Total predicted points: 9356
+Size of intersection: 4000
+Precision: 0.4275331338178709, Recall: 1.0
+Total space: 16384
+Percent Reduction: 0.428955078125
+-----HULL for PROGRAM: LDC2D------
+Saved predicted valid offsets to ./data/LDC2D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC2D_with_hull.png
+Total number of predicted offsets: 9356
+
+-----GROUND TRUTH for PROGRAM: LDC2D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC2D_truth.png
+Total points in the ground truth: 4000
+Total predicted points: 9356
+Size of intersection: 4000
+Precision: 0.4275331338178709, Recall: 1.0
+Total space: 16384
+Percent Reduction: 0.428955078125

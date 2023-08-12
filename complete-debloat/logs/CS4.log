@@ -1,0 +1,140 @@
+-----HULL for PROGRAM: CS4------
+Saved predicted valid offsets to ./data/CS4_hull.npy
+Saved predicted valid offsets graph to ./output_map/CS4_with_hull.png
+Total number of predicted offsets: 4990
+
+-----GROUND TRUTH for PROGRAM: CS4------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/CS4_truth.png
+Total points in the ground truth: 5589
+Total predicted points: 4990
+Size of intersection: 4990
+Precision: 1.0, Recall: 0.8928251923421006
+Total space: 16384
+Percent Reduction: 0.6954345703125
+-----HULL for PROGRAM: CS4------
+Saved predicted valid offsets to ./data/CS4_hull.npy
+Saved predicted valid offsets graph to ./output_map/CS4_with_hull.png
+Total number of predicted offsets: 5017
+
+-----GROUND TRUTH for PROGRAM: CS4------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/CS4_truth.png
+Total points in the ground truth: 5589
+Total predicted points: 5017
+Size of intersection: 5017
+Precision: 1.0, Recall: 0.8976561102164967
+Total space: 16384
+Percent Reduction: 0.69378662109375
+-----HULL for PROGRAM: CS4------
+Saved predicted valid offsets to ./data/CS4_hull.npy
+Saved predicted valid offsets graph to ./output_map/CS4_with_hull.png
+Total number of predicted offsets: 5363
+
+-----GROUND TRUTH for PROGRAM: CS4------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/CS4_truth.png
+Total points in the ground truth: 5589
+Total predicted points: 5363
+Size of intersection: 5363
+Precision: 1.0, Recall: 0.959563428162462
+Total space: 16384
+Percent Reduction: 0.67266845703125
+-----HULL for PROGRAM: CS4------
+Saved predicted valid offsets to ./data/CS4_hull.npy
+Saved predicted valid offsets graph to ./output_map/CS4_with_hull.png
+Total number of predicted offsets: 5451
+
+-----GROUND TRUTH for PROGRAM: CS4------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/CS4_truth.png
+Total points in the ground truth: 5589
+Total predicted points: 5451
+Size of intersection: 5451
+Precision: 1.0, Recall: 0.9753086419753086
+Total space: 16384
+Percent Reduction: 0.66729736328125
+-----HULL for PROGRAM: CS4------
+Saved predicted valid offsets to ./data/CS4_hull.npy
+Saved predicted valid offsets graph to ./output_map/CS4_with_hull.png
+Total number of predicted offsets: 5465
+
+-----GROUND TRUTH for PROGRAM: CS4------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/CS4_truth.png
+Total points in the ground truth: 5589
+Total predicted points: 5465
+Size of intersection: 5465
+Precision: 1.0, Recall: 0.9778135623546251
+Total space: 16384
+Percent Reduction: 0.66644287109375
+-----HULL for PROGRAM: CS4------
+Saved predicted valid offsets to ./data/CS4_hull.npy
+Saved predicted valid offsets graph to ./output_map/CS4_with_hull.png
+Total number of predicted offsets: 5465
+
+-----GROUND TRUTH for PROGRAM: CS4------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/CS4_truth.png
+Total points in the ground truth: 5589
+Total predicted points: 5465
+Size of intersection: 5465
+Precision: 1.0, Recall: 0.9778135623546251
+Total space: 16384
+Percent Reduction: 0.66644287109375
+-----HULL for PROGRAM: CS4------
+Saved predicted valid offsets to ./data/CS4_hull.npy
+Saved predicted valid offsets graph to ./output_map/CS4_with_hull.png
+Total number of predicted offsets: 5465
+
+-----GROUND TRUTH for PROGRAM: CS4------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/CS4_truth.png
+Total points in the ground truth: 5589
+Total predicted points: 5465
+Size of intersection: 5465
+Precision: 1.0, Recall: 0.9778135623546251
+Total space: 16384
+Percent Reduction: 0.66644287109375
+-----HULL for PROGRAM: CS4------
+Saved predicted valid offsets to ./data/CS4_hull.npy
+Saved predicted valid offsets graph to ./output_map/CS4_with_hull.png
+Total number of predicted offsets: 12646
+
+-----GROUND TRUTH for PROGRAM: CS4------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/CS4_truth.png
+Total points in the ground truth: 5589
+Total predicted points: 12646
+Size of intersection: 5563
+Precision: 0.4399019452791397, Recall: 0.9953480050098408
+Total space: 16384
+Percent Reduction: 0.2281494140625
+-----HULL for PROGRAM: CS4------
+Saved predicted valid offsets to ./data/CS4_hull.npy
+Saved predicted valid offsets graph to ./output_map/CS4_with_hull.png
+Total number of predicted offsets: 12646
+
+-----GROUND TRUTH for PROGRAM: CS4------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/CS4_truth.png
+Total points in the ground truth: 5589
+Total predicted points: 12646
+Size of intersection: 5563
+Precision: 0.4399019452791397, Recall: 0.9953480050098408
+Total space: 16384
+Percent Reduction: 0.2281494140625
+-----HULL for PROGRAM: CS4------
+Saved predicted valid offsets to ./data/CS4_hull.npy
+Saved predicted valid offsets graph to ./output_map/CS4_with_hull.png
+Total number of predicted offsets: 12646
+
+-----GROUND TRUTH for PROGRAM: CS4------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/CS4_truth.png
+Total points in the ground truth: 5589
+Total predicted points: 12646
+Size of intersection: 5563
+Precision: 0.4399019452791397, Recall: 0.9953480050098408
+Total space: 16384
+Percent Reduction: 0.2281494140625

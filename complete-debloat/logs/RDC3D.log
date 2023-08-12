@@ -1,0 +1,140 @@
+-----HULL for PROGRAM: RDC3D------
+Saved predicted valid offsets to ./data/RDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/RDC3D_with_hull.png
+Total number of predicted offsets: 17249
+
+-----GROUND TRUTH for PROGRAM: RDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/RDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 17249
+Size of intersection: 17249
+Precision: 1.0, Recall: 0.4791388888888889
+Total space: 262144
+Percent Reduction: 0.9342002868652344
+-----HULL for PROGRAM: RDC3D------
+Saved predicted valid offsets to ./data/RDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/RDC3D_with_hull.png
+Total number of predicted offsets: 17292
+
+-----GROUND TRUTH for PROGRAM: RDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/RDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 17292
+Size of intersection: 17292
+Precision: 1.0, Recall: 0.48033333333333333
+Total space: 262144
+Percent Reduction: 0.9340362548828125
+-----HULL for PROGRAM: RDC3D------
+Saved predicted valid offsets to ./data/RDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/RDC3D_with_hull.png
+Total number of predicted offsets: 17327
+
+-----GROUND TRUTH for PROGRAM: RDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/RDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 17327
+Size of intersection: 17327
+Precision: 1.0, Recall: 0.48130555555555554
+Total space: 262144
+Percent Reduction: 0.9339027404785156
+-----HULL for PROGRAM: RDC3D------
+Saved predicted valid offsets to ./data/RDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/RDC3D_with_hull.png
+Total number of predicted offsets: 17327
+
+-----GROUND TRUTH for PROGRAM: RDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/RDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 17327
+Size of intersection: 17327
+Precision: 1.0, Recall: 0.48130555555555554
+Total space: 262144
+Percent Reduction: 0.9339027404785156
+-----HULL for PROGRAM: RDC3D------
+Saved predicted valid offsets to ./data/RDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/RDC3D_with_hull.png
+Total number of predicted offsets: 17327
+
+-----GROUND TRUTH for PROGRAM: RDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/RDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 17327
+Size of intersection: 17327
+Precision: 1.0, Recall: 0.48130555555555554
+Total space: 262144
+Percent Reduction: 0.9339027404785156
+-----HULL for PROGRAM: RDC3D------
+Saved predicted valid offsets to ./data/RDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/RDC3D_with_hull.png
+Total number of predicted offsets: 17327
+
+-----GROUND TRUTH for PROGRAM: RDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/RDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 17327
+Size of intersection: 17327
+Precision: 1.0, Recall: 0.48130555555555554
+Total space: 262144
+Percent Reduction: 0.9339027404785156
+-----HULL for PROGRAM: RDC3D------
+Saved predicted valid offsets to ./data/RDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/RDC3D_with_hull.png
+Total number of predicted offsets: 17327
+
+-----GROUND TRUTH for PROGRAM: RDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/RDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 17327
+Size of intersection: 17327
+Precision: 1.0, Recall: 0.48130555555555554
+Total space: 262144
+Percent Reduction: 0.9339027404785156
+-----HULL for PROGRAM: RDC3D------
+Saved predicted valid offsets to ./data/RDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/RDC3D_with_hull.png
+Total number of predicted offsets: 17327
+
+-----GROUND TRUTH for PROGRAM: RDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/RDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 17327
+Size of intersection: 17327
+Precision: 1.0, Recall: 0.48130555555555554
+Total space: 262144
+Percent Reduction: 0.9339027404785156
+-----HULL for PROGRAM: RDC3D------
+Saved predicted valid offsets to ./data/RDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/RDC3D_with_hull.png
+Total number of predicted offsets: 74815
+
+-----GROUND TRUTH for PROGRAM: RDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/RDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 74815
+Size of intersection: 17989
+Precision: 0.24044643453852838, Recall: 0.49969444444444444
+Total space: 262144
+Percent Reduction: 0.7146034240722656
+-----HULL for PROGRAM: RDC3D------
+Saved predicted valid offsets to ./data/RDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/RDC3D_with_hull.png
+Total number of predicted offsets: 74815
+
+-----GROUND TRUTH for PROGRAM: RDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/RDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 74815
+Size of intersection: 17989
+Precision: 0.24044643453852838, Recall: 0.49969444444444444
+Total space: 262144
+Percent Reduction: 0.7146034240722656

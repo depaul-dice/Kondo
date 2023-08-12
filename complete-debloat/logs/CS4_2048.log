@@ -1,0 +1,26 @@
+-----FUZZ for PROGRAM: CS4_2048-----
+Saved fuzzed offsets to ./data/CS4_2048_fuzz.npy
+Number of fuzzed offsets: 17822
+Saved input map to file ./input_map/CS4_2048.png
+Saved output map to file ./output_map/CS4_2048_fuzz.png
+
+-----FUZZ for PROGRAM: CS4_2048-----
+Saved fuzzed offsets to ./data/CS4_2048_fuzz.npy
+Number of fuzzed offsets: 14906
+Saved input map to file ./input_map/CS4_2048.png
+Saved output map to file ./output_map/CS4_2048_fuzz.png
+
+-----HULL for PROGRAM: CS4_2048------
+Saved predicted valid offsets to ./data/CS4_2048_hull.npy
+Saved predicted valid offsets graph to ./output_map/CS4_2048_with_hull.png
+Total number of predicted offsets: 1699537
+
+-----GROUND TRUTH for PROGRAM: CS4_2048------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/CS4_2048_truth.png
+Total points in the ground truth: 1748991
+Total predicted points: 1699537
+Size of intersection: 1689822
+Precision: 0.9942837372766818, Recall: 0.9661696372365552
+Total space: 4194304
+Percent Reduction: 0.5947988033294678

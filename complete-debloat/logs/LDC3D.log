@@ -1,0 +1,140 @@
+-----HULL for PROGRAM: LDC3D------
+Saved predicted valid offsets to ./data/LDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC3D_with_hull.png
+Total number of predicted offsets: 0
+
+-----GROUND TRUTH for PROGRAM: LDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 0
+Size of intersection: 0
+Precision: 1, Recall: 0.0
+Total space: 262144
+Percent Reduction: 1.0
+-----HULL for PROGRAM: LDC3D------
+Saved predicted valid offsets to ./data/LDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC3D_with_hull.png
+Total number of predicted offsets: 0
+
+-----GROUND TRUTH for PROGRAM: LDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 0
+Size of intersection: 0
+Precision: 1, Recall: 0.0
+Total space: 262144
+Percent Reduction: 1.0
+-----HULL for PROGRAM: LDC3D------
+Saved predicted valid offsets to ./data/LDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC3D_with_hull.png
+Total number of predicted offsets: 0
+
+-----GROUND TRUTH for PROGRAM: LDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 0
+Size of intersection: 0
+Precision: 1, Recall: 0.0
+Total space: 262144
+Percent Reduction: 1.0
+-----HULL for PROGRAM: LDC3D------
+Saved predicted valid offsets to ./data/LDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC3D_with_hull.png
+Total number of predicted offsets: 0
+
+-----GROUND TRUTH for PROGRAM: LDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 0
+Size of intersection: 0
+Precision: 1, Recall: 0.0
+Total space: 262144
+Percent Reduction: 1.0
+-----HULL for PROGRAM: LDC3D------
+Saved predicted valid offsets to ./data/LDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC3D_with_hull.png
+Total number of predicted offsets: 0
+
+-----GROUND TRUTH for PROGRAM: LDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 0
+Size of intersection: 0
+Precision: 1, Recall: 0.0
+Total space: 262144
+Percent Reduction: 1.0
+-----HULL for PROGRAM: LDC3D------
+Saved predicted valid offsets to ./data/LDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC3D_with_hull.png
+Total number of predicted offsets: 0
+
+-----GROUND TRUTH for PROGRAM: LDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 0
+Size of intersection: 0
+Precision: 1, Recall: 0.0
+Total space: 262144
+Percent Reduction: 1.0
+-----HULL for PROGRAM: LDC3D------
+Saved predicted valid offsets to ./data/LDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC3D_with_hull.png
+Total number of predicted offsets: 0
+
+-----GROUND TRUTH for PROGRAM: LDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 0
+Size of intersection: 0
+Precision: 1, Recall: 0.0
+Total space: 262144
+Percent Reduction: 1.0
+-----HULL for PROGRAM: LDC3D------
+Saved predicted valid offsets to ./data/LDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC3D_with_hull.png
+Total number of predicted offsets: 0
+
+-----GROUND TRUTH for PROGRAM: LDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 0
+Size of intersection: 0
+Precision: 1, Recall: 0.0
+Total space: 262144
+Percent Reduction: 1.0
+-----HULL for PROGRAM: LDC3D------
+Saved predicted valid offsets to ./data/LDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC3D_with_hull.png
+Total number of predicted offsets: 8572
+
+-----GROUND TRUTH for PROGRAM: LDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 8572
+Size of intersection: 0
+Precision: 0.0, Recall: 0.0
+Total space: 262144
+Percent Reduction: 0.9673004150390625
+-----HULL for PROGRAM: LDC3D------
+Saved predicted valid offsets to ./data/LDC3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/LDC3D_with_hull.png
+Total number of predicted offsets: 8572
+
+-----GROUND TRUTH for PROGRAM: LDC3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/LDC3D_truth.png
+Total points in the ground truth: 36000
+Total predicted points: 8572
+Size of intersection: 0
+Precision: 0.0, Recall: 0.0
+Total space: 262144
+Percent Reduction: 0.9673004150390625

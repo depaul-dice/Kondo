@@ -1,0 +1,140 @@
+-----HULL for PROGRAM: PRL3D------
+Saved predicted valid offsets to ./data/PRL3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/PRL3D_with_hull.png
+Total number of predicted offsets: 77561
+
+-----GROUND TRUTH for PROGRAM: PRL3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/PRL3D_truth.png
+Total points in the ground truth: 312000
+Total predicted points: 77561
+Size of intersection: 77397
+Precision: 0.997885535256121, Recall: 0.2480673076923077
+Total space: 262144
+Percent Reduction: 0.7041282653808594
+-----HULL for PROGRAM: PRL3D------
+Saved predicted valid offsets to ./data/PRL3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/PRL3D_with_hull.png
+Total number of predicted offsets: 77561
+
+-----GROUND TRUTH for PROGRAM: PRL3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/PRL3D_truth.png
+Total points in the ground truth: 312000
+Total predicted points: 77561
+Size of intersection: 77397
+Precision: 0.997885535256121, Recall: 0.2480673076923077
+Total space: 262144
+Percent Reduction: 0.7041282653808594
+-----HULL for PROGRAM: PRL3D------
+Saved predicted valid offsets to ./data/PRL3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/PRL3D_with_hull.png
+Total number of predicted offsets: 84459
+
+-----GROUND TRUTH for PROGRAM: PRL3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/PRL3D_truth.png
+Total points in the ground truth: 312000
+Total predicted points: 84459
+Size of intersection: 77692
+Precision: 0.9198782841378658, Recall: 0.2490128205128205
+Total space: 262144
+Percent Reduction: 0.6778144836425781
+-----HULL for PROGRAM: PRL3D------
+Saved predicted valid offsets to ./data/PRL3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/PRL3D_with_hull.png
+Total number of predicted offsets: 90504
+
+-----GROUND TRUTH for PROGRAM: PRL3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/PRL3D_truth.png
+Total points in the ground truth: 312000
+Total predicted points: 90504
+Size of intersection: 77943
+Precision: 0.8612105542296473, Recall: 0.2498173076923077
+Total space: 262144
+Percent Reduction: 0.654754638671875
+-----HULL for PROGRAM: PRL3D------
+Saved predicted valid offsets to ./data/PRL3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/PRL3D_with_hull.png
+Total number of predicted offsets: 122880
+
+-----GROUND TRUTH for PROGRAM: PRL3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/PRL3D_truth.png
+Total points in the ground truth: 312000
+Total predicted points: 122880
+Size of intersection: 78000
+Precision: 0.634765625, Recall: 0.25
+Total space: 262144
+Percent Reduction: 0.53125
+-----HULL for PROGRAM: PRL3D------
+Saved predicted valid offsets to ./data/PRL3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/PRL3D_with_hull.png
+Total number of predicted offsets: 122880
+
+-----GROUND TRUTH for PROGRAM: PRL3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/PRL3D_truth.png
+Total points in the ground truth: 312000
+Total predicted points: 122880
+Size of intersection: 78000
+Precision: 0.634765625, Recall: 0.25
+Total space: 262144
+Percent Reduction: 0.53125
+-----HULL for PROGRAM: PRL3D------
+Saved predicted valid offsets to ./data/PRL3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/PRL3D_with_hull.png
+Total number of predicted offsets: 122880
+
+-----GROUND TRUTH for PROGRAM: PRL3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/PRL3D_truth.png
+Total points in the ground truth: 312000
+Total predicted points: 122880
+Size of intersection: 78000
+Precision: 0.634765625, Recall: 0.25
+Total space: 262144
+Percent Reduction: 0.53125
+-----HULL for PROGRAM: PRL3D------
+Saved predicted valid offsets to ./data/PRL3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/PRL3D_with_hull.png
+Total number of predicted offsets: 122880
+
+-----GROUND TRUTH for PROGRAM: PRL3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/PRL3D_truth.png
+Total points in the ground truth: 312000
+Total predicted points: 122880
+Size of intersection: 78000
+Precision: 0.634765625, Recall: 0.25
+Total space: 262144
+Percent Reduction: 0.53125
+-----HULL for PROGRAM: PRL3D------
+Saved predicted valid offsets to ./data/PRL3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/PRL3D_with_hull.png
+Total number of predicted offsets: 122880
+
+-----GROUND TRUTH for PROGRAM: PRL3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/PRL3D_truth.png
+Total points in the ground truth: 312000
+Total predicted points: 122880
+Size of intersection: 78000
+Precision: 0.634765625, Recall: 0.25
+Total space: 262144
+Percent Reduction: 0.53125
+-----HULL for PROGRAM: PRL3D------
+Saved predicted valid offsets to ./data/PRL3D_hull.npy
+Saved predicted valid offsets graph to ./output_map/PRL3D_with_hull.png
+Total number of predicted offsets: 122880
+
+-----GROUND TRUTH for PROGRAM: PRL3D------
+Running Brute force for ground truth
+Saved ground truth graph to ./output_map/PRL3D_truth.png
+Total points in the ground truth: 312000
+Total predicted points: 122880
+Size of intersection: 78000
+Precision: 0.634765625, Recall: 0.25
+Total space: 262144
+Percent Reduction: 0.53125
