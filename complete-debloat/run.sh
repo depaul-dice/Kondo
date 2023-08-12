@@ -1,8 +1,10 @@
 echo -e "Installing python"
 sudo apt-get -y install software-properties-common
-sudo add-apt-repository ppa:deadsnakes/ppa
+sudo add-apt-repository -y ppa:deadsnakes/ppa
 sudo apt-get -y update
 sudo apt-get -y install python3.8
+sudo apt install -y  python3-pip
+pip install virtualenv 
 
 virtualenv --python python3.6 venv
 source venv/bin/activate
@@ -48,7 +50,7 @@ echo -e "Sleeping to wait for AFL compilation"
 echo -e "!!!!Please increase the sleep time here if all compilations havent completed."
 echo "It usually takes a few hours."
 echo -e "=================================================================================\n\n"
-sleep 60 # 1 min or until compilation of afl programs end
+sleep 3600 # 1 hour or until compilation of afl programs end
 
 echo -e "\n\n========================"
 echo -e "\nRunning AFL"
