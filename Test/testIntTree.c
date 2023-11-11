@@ -5,29 +5,11 @@
 int main()
 {
     Node* root = NULL;
-    root = insertInterval(root, (Interval) {0,10});
-    root = insertInterval(root, (Interval) {30,70});
-    root = insertInterval(root, (Interval) {90,100});
-    NodeList* pHead;
-    print_intervals(root, stdout);
-    NodeList* pIntersection;
-    NodeList* pLeftOver;
-     getIntersectionsAndChopInterval(root, &(Interval){5,95}, &pIntersection, &pLeftOver);
-    NodeList* pCur = pIntersection;
-    fprintf(stdout, "***********\n");
-    while(pCur != NULL)
-    {
-        fprintf(stdout, "%d %d\n", pCur->pInterval->low, pCur->pInterval->high);
-        pCur = pCur->pNext;
-    }
-    fprintf(stdout, "***********\n");
-    pCur = pLeftOver;
-    fprintf(stdout, "***********\n");
-    while(pCur != NULL)
-    {
-        fprintf(stdout, "%d %d\n", pCur->pInterval->low, pCur->pInterval->high);
-        pCur = pCur->pNext;
-    }
-    fprintf(stdout, "***********\n");
-    print_intervals(root, stdout);
+    root = insertNoCombine(root, (Interval) {0,10,0,0});
+    root = insertNoCombine(root, (Interval) {30,70,10,0});
+    root = insertNoCombine(root, (Interval) {90,100,50,0});
+    root = insertNoCombine(root, (Interval) {100,105,60,0});
+    root = insertNoCombine(root, (Interval) {10,30,65,0});
+    root = chopTree(root, (Interval){5,35,-1,-1});
+    print_intervals(root, stdout, 1);
 }

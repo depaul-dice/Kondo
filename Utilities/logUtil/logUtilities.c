@@ -244,7 +244,9 @@ char *readFile(FILE *fptr, int fd, off_t readOffset, off_t size, off_t oldOffset
     }
     else
     {
-
+        getSysData()->functions->real_lseek(fd, readOffset, SEEK_SET);
+        getSysData()->functions->real_read(fd, buf, size);
+        getSysData()->functions->real_lseek(fd, oldOffset, SEEK_SET);
     }
     return buf;
 }
@@ -325,7 +327,7 @@ char *getCharOfCall(enum CallType type)
         break;
     case PWRITE:
         /* code */
-        return "Pwrite";
+        return "pwrite";
         break;
     case FSEEK:
         /* code */

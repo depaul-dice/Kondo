@@ -419,18 +419,14 @@ void logWrite(off_t offset, size_t writeSize, FILE *fptr, int fd, enum CallType 
         strcat(call->hash,tmp);
     }
     // Now we chop the tree with given write Interval
-    fprintf(stdout, "*****\n");
-    print_intervals(metadata->subsetTree, stdout, 1);
+
     metadata->subsetTree = chopTree(metadata->subsetTree, (Interval){call->offset,call->offset+ call->size, -1, -1});
-    fprintf(stdout, "*****\n");
-    print_intervals(metadata->subsetTree, stdout, 1);
+    
+
     // Write the whole thing to the writeCache and update it
     size_t offsetInWriteCache = flushToCache(metadata, metadata->writeCache, ptr, writeSize);
-    fprintf(stdout, "*****\n");
     // Add to the subsetTree
     metadata->subsetTree = insertNoCombine(metadata->subsetTree, (Interval){call->offset, call->offset+writeSize, offsetInWriteCache, 1});
-    print_intervals(metadata->subsetTree, stdout, 1);
-    fprintf(stdout, "*****\n");
     compareCalls(metadata, call);
 }
 

@@ -229,6 +229,25 @@ size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
         return getSysData()->functions->real_fwrite(ptr, size, nmemb, stream);   
     }
 }
+ssize_t write(int fildes, const void *buf, size_t nbytes)
+{
+    if(checkTrackingDesc(fildes))
+    {
+        logWrite(-1, nbytes, NULL, fildes, WRITE, buf);  
+        return nbytes;  
+    }
+    return getSysData()->functions->real_write(fildes, buf, nbytes);   
+}
+
+ssize_t pwrite(int fd, const void *buf, size_t count, off_t offset)
+{
+    if(checkTrackingDesc(fd))
+    {
+        logWrite(offset, count, NULL, fd, PWRITE, buf);
+        return count;    
+    }
+    return getSysData()->functions->real_pwrite(fd, buf, count, offset);     
+}
 
 int fstat(int fd, struct stat *buf)
 {
