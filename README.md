@@ -2,45 +2,72 @@
 
 ### Dependencies
 - Install [hdf5] from source, version 1.12.2
-`
-cd <unzipped hdf5 directory>
-CFLAGS=-g ./configure --prefix=/usr/local/hdf5
-sudo make
-sudo make install
-`
-- Install python3.9 using 
-`
-sudo add-apt-repository ppa:deadsnakes/ppa
-sudo apt-get install python3.9-dev
-sudo apt-get install python3.9-distutils
-`
+  
+   `
+   cd <unzipped hdf5 directory>
+   `
+   
+   `
+   CFLAGS=-g ./configure --prefix=/usr/local/hdf5
+   `
+   
+   `
+   sudo make
+   `
+   
+   `
+   sudo make install
+   `
+- Install python3.9 using
+     
+   `
+   sudo add-apt-repository ppa:deadsnakes/ppa
+   `
+   
+   `
+   sudo apt-get install python3.9-dev
+   `
+   
+   `
+   sudo apt-get install python3.9-distutils
+   `
 - Install [h5py] 3.8.0 from source
-`
-export HDF5_DIR=/usr/local/hdf5/
-cd <unzipped h5py directory>
-python3.9 -m pip install -v .
-`
-visually ensure that the configured h5py has the following configuration
-`
-   Summary of the h5py configuration
 
-    HDF5 include dirs: [
-    '/usr/local/hdf5/include'
-  ]
-    HDF5 library dirs: [
-    '/usr/local/hdf5/lib'
-  ]
-         HDF5 Version: (1, 12, 2)
-          MPI Enabled: False
-     ROS3 VFD Enabled: False
-   DIRECT VFD Enabled: False
-     Rebuild Required: True
-       MS-MPI Enabled: False
-  MS-MPI include dirs: []
-  MS-MPI library dirs: []
+   `
+   export HDF5_DIR=/usr/local/hdf5/
+   `
+   
+   `
+   cd <unzipped h5py directory>
+   `
+   
+   `
+   python3.9 -m pip install -v .
+   `
+  
+Visually inspect and ensure that the configured h5py has the following configuration
 
-`
-The above will be in the output of the instal command
+
+
+         Summary of the h5py configuration
+      
+          HDF5 include dirs: [
+          "/usr/local/hdf5/include"
+        ]
+          HDF5 library dirs: [
+          "/usr/local/hdf5/lib"
+        ]
+               HDF5 Version: (1, 12, 2)
+                MPI Enabled: False
+           ROS3 VFD Enabled: False
+         DIRECT VFD Enabled: False
+           Rebuild Required: True
+             MS-MPI Enabled: False
+        MS-MPI include dirs: []
+        MS-MPI library dirs: []
+
+
+The above will be in the output of the install command
 
 - Install parse
 `
@@ -70,6 +97,7 @@ cd Kondo/ReExecute
 `
 LD_PRELOAD=<path to auditLib.so> <executable>
 `
+
 example:
 `
 LD_PRELOAD=../Audit/auditLib.so python3.9 pyTest.py
@@ -84,6 +112,7 @@ python3.9 createDataStore.py
 `
 LD_PRELOAD=<path to repeatLib.so> <executable>
 `
+
 example:
 `
 LD_PRELOAD=../ReExecute/repeatLib.so python3.9 pyTest.py
