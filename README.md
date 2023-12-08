@@ -75,6 +75,7 @@ python3.9 -m pip install parse
 `
 - Add WhiteList and BlackList to `Kondo/Test`
 WhiteList.txt and BlackList.txt format
+
 `
 <num of entries>
 entry1_absolute_path
