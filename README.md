@@ -1,5 +1,6 @@
 # Kondo
-Efficient Parameter-Independent Data Debloating
+Efficient Parameter-Independent Data Debloating (Fuzzer and Carver).
+For Parameter-Specific Data Debloating (I/O Event audit), see this repo: https://github.com/depaul-dice/InterpositionBasedKondo
 
 ### Running the experiments
 Please change to complete-debloat for running any of the below scripts  
