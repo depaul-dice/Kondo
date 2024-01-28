@@ -175,30 +175,29 @@ void readSubsetTree(fileMetadata* curFile, char* ptrPath)
     }
 }
 
+#define MAX_LINE_LENGTH 1000
 
 void readTrace(fileMetadata* curFile, char* tracePath)
 {
     FILE* traceFPTR = getSysData()->functions->real_fopen(tracePath, "r");  
     CallList* newCall;
-    char* tmp;
-    char c[1000];
-    char* token;
-    while(fgets(c,sizeof c, traceFPTR)!= NULL) /* read a line from a file */ 
+
+    char line[MAX_LINE_LENGTH];
+    while(fgets(line, MAX_LINE_LENGTH, traceFPTR)!= NULL) /* read a line from a file */ 
     {
         newCall = malloc(sizeof(CallList));
-        char* ret = strrchr(c, ':');
+        char* ret = strrchr(line, ':');
         memcpy(newCall->hash, ret+1, HASH_LEN);
         newCall->hash[HASH_LEN] = 0;
-        token = strtok(c, ":");
-        newCall->type = getType(token);
-        token = strtok(NULL, c);
-        char* tmp = malloc(HASH_LEN);
-        sscanf(token, "%ld:%ld:%ld:%d:%s\n", &newCall->timeStamp, &newCall->offset, &newCall->size, &newCall->other,tmp);
-        free(tmp);
-        memset(c, '\0', sizeof(c));
+      
+        newCall->type = getType(strtok(line, ":"));
+        newCall->timeStamp = atol(strtok(NULL, ":"));
+        newCall->offset = atol(strtok(NULL, ":"));
+        newCall->size = atol(strtok(NULL, ":"));
+        newCall->other = atol(strtok(NULL, ":"));
+
         addCall(curFile, newCall);
-    }
-   
+    }   
 }
 
 enum CallType getType(char* call)
