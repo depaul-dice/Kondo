@@ -272,6 +272,7 @@ size_t logRead(off_t offset, size_t readSize, FILE *fptr, int fd, enum CallType 
         strcat(call->hash,tmp);
     }
     compareCalls(metadata, call);
+    metadata->filePointer += readSize;
     return 0;
 }
 
@@ -310,7 +311,7 @@ void addOpenFile(int fd, FILE *fptr, char *path)
 /// @param fd File desc of the file have to supply either fd or fptr
 /// @param whence mode for the seek SET/CUR/END
 /// @param type an Enumeration of what type of open call was made
-void logSeek(long off, FILE* fptr, int fd, int whence, enum CallType type)
+off_t logSeek(long off, FILE* fptr, int fd, int whence, enum CallType type)
 {
 
     fileMetadata* metadata = getMetadata(fptr, fd);
@@ -334,6 +335,7 @@ void logSeek(long off, FILE* fptr, int fd, int whence, enum CallType type)
         // TODO
     }
 
+    return metadata->filePointer;
 }
 
 

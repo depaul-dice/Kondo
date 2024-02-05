@@ -180,8 +180,7 @@ off_t lseek64(int fildes, off_t offset, int whence)
 {
     if(checkTrackingDesc(fildes))
     {
-        logSeek(offset, NULL, fildes, whence, LSEEK64);    
-        return 0;
+        return logSeek(offset, NULL, fildes, whence, LSEEK64);    
     }
     else
     {

@@ -67,7 +67,7 @@ void logWrite(off_t offset, size_t wrtteSize, FILE *fptr, int fd, enum CallType 
 /// @param fd File desc of the file have to supply either fd or fptr
 /// @param whence mode for the seek SET/CUR/END
 /// @param type an Enumeration of what type of open call was made
-void logSeek(long off, FILE *fptr, int fd, int whence, enum CallType tpye);
+off_t logSeek(long off, FILE *fptr, int fd, int whence, enum CallType tpye);
 
 
 /// @brief Log a stat call for given fd
