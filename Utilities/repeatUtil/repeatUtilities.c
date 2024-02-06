@@ -19,6 +19,7 @@ void initRealFunctions()
     systemData->functions = malloc(sizeof(realFunctions));
 
     getSysData()->functions->real_fopen = dlsym(RTLD_NEXT, "fopen");
+    getSysData()->functions->real_fopen64 = dlsym(RTLD_NEXT, "fopen64");
     getSysData()->functions->real_open = dlsym(RTLD_NEXT, "open");
     getSysData()->functions->real_open64 = dlsym(RTLD_NEXT, "open64");
 
@@ -204,6 +205,8 @@ enum CallType getType(char* call)
 {
     if(strcmp("fopen", call)==0)
         return FOPEN;
+    if(strcmp("fopen64", call)==0)
+        return FOPEN64;
     if(strcmp("open", call)==0)
         return OPEN;
     if(strcmp("open64", call)==0)

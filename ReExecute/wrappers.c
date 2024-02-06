@@ -22,6 +22,21 @@ FILE *fopen(const char *filename, const char *mode)
     
 }
 
+FILE *fopen64(const char *filename, const char *mode)
+{
+    if(setup == 0)
+    {
+        initSystem();
+    }
+    
+    FILE* ret = getSysData()->functions->real_fopen64(filename, mode);
+    if(checkTrackingPath(filename))
+    {
+        logOpen(filename, -1, &ret, FOPEN64);
+    }
+    return ret; 
+}
+
 int openat(int dirfd, const char *filename, int flags)
 {
     if(setup == 0)

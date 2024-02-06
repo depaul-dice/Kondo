@@ -16,6 +16,7 @@ void initRealFunctions()
     systemData->functions = malloc(sizeof(realFunctions));
 
     getSysData()->functions->real_fopen = dlsym(RTLD_NEXT, "fopen");
+    getSysData()->functions->real_fopen64 = dlsym(RTLD_NEXT, "fopen64");
     getSysData()->functions->real_open = dlsym(RTLD_NEXT, "open");
     getSysData()->functions->real_open64 = dlsym(RTLD_NEXT, "open64");
 
@@ -282,6 +283,10 @@ char *getCharOfCall(enum CallType type)
     case FOPEN:
         /* code */
         return "fopen";
+        break;   
+    case FOPEN64:
+        /* code */
+        return "fopen64";
         break;   
     case OPENAT:
         /* code */

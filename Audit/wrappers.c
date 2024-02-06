@@ -35,6 +35,22 @@ FILE *fopen(const char *filename, const char *mode)
     }
     return ret;
 }
+
+FILE *fopen64(const char *filename, const char *mode)
+{
+    if(setup == 0)
+    {
+        initSystem();
+    }
+    FILE* ret;
+    if(checkTrackingPath(filename))
+    {
+        logOpen(filename, -1, ret, FOPEN64);
+        return ret;
+    }
+    return getSysData()->functions->real_fopen64(filename, mode);
+}
+
 int open(const char *filename, int flags)
 {
     if(setup == 0)

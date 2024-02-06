@@ -5,6 +5,7 @@
 enum CallType
 {
     FOPEN,
+    FOPEN64,
     OPEN,
     OPEN64,
     OPENAT,
@@ -77,6 +78,7 @@ typedef struct realFunctions
 {
     // Flavours of open
     FILE *(*real_fopen)(const char *filename, const char *mode);
+    FILE *(*real_fopen64)(const char *filename, const char *mode);
     int (*real_open)(const char *, int);
     int (*real_open64)(const char *, int);
 
